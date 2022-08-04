@@ -3,43 +3,56 @@ import { LockClosedIcon } from "@heroicons/react/solid";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "./Input/Input";
 
-const RegisterComponent = (props) => {
-    const [value, setValue] = useState({ mail: "", pass: "" });
-    const [isValid, setIsValid] = useState({ mail: false, pass: false });
+const RegisterComponent = () => {
+    const [value, setValue] = useState({
+        email: "",
+        password: "",
+        passwordConfirm: "",
+    });
+    const [isValid, setIsValid] = useState({
+        email: false,
+        password: false,
+        passwordConfirm: false,
+    });
+    const navigate = useNavigate();
     const style =
         "w-full rounded-md border bordder-primary p-3 bg-primary text-base hover:bg-opacity-90 transition";
-    const navigate = useNavigate();
+
+    const inputChangeHandler = (data, name) => {
+        setValue((prevValue) => {
+            return { ...prevValue, [name]: data };
+        });
+    };
+
+    const inputValidityHandler = (data, name) => {
+        if (name === "email") {
+            setIsValid((prevValue) => {
+                return { ...prevValue, [name]: data };
+            });
+        } else if (name === "password") {
+            setIsValid((prevValue) => {
+                return { ...prevValue, [name]: data.trim().length > 7 };
+            });
+        } else if (name === "passwordConfirm") {
+            setIsValid((prevValue) => {
+                return { ...prevValue, [name]: data === value.password };
+            });
+        }
+    };
+
     const submitUserHandler = (e) => {
         e.preventDefault();
-        if (isValid.mail && isValid.pass) {
-            console.log(value);
-            setValue({ pass: "", mail: "" });
-            setIsValid({ mail: false, pass: false });
+        if (isValid.email && isValid.password && isValid.passwordConfirm) {
+            setValue({ email: "", password: "", passwordConfirm: "" });
+            setIsValid({
+                email: false,
+                password: false,
+                passwordConfirm: false,
+            });
             navigate("/home");
         }
     };
-    const mailChangeHandler = (data) => {
-        setValue((prevValue) => {
-            return { ...prevValue, mail: data };
-        });
-    };
-
-    const passChangeHandler = (data) => {
-        setValue((prevValue) => {
-            return { ...prevValue, pass: data };
-        });
-    };
-    const mailValidationCheck = (data) => {
-        setIsValid((prevValue) => {
-            return { ...prevValue, mail: data };
-        });
-    };
-
-    const passValidationCheck = (data) => {
-        setIsValid((prevValue) => {
-            return { ...prevValue, pass: data };
-        });
-    };
+    
     return (
         <>
             <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -57,23 +70,37 @@ const RegisterComponent = (props) => {
                         onSubmit={submitUserHandler}
                     >
                         <Input
-                            value={value.mail}
+                            value={value.email}
+                            type="email"
                             name="email"
                             text="Email address"
-                            onChangeInput={mailChangeHandler}
-                            onValidity={mailValidationCheck}
-                            valid={isValid.mail}
+                            onChangeInput={inputChangeHandler}
+                            onValidity={inputValidityHandler}
+                            valid={isValid.email}
                             warning="Please, enter valid e-mail!"
                             styles={style}
                         />
                         <Input
-                            value={value.pass}
+                            value={value.password}
+                            type="password"
                             name="password"
                             text="Password"
-                            onChangeInput={passChangeHandler}
-                            onValidity={passValidationCheck}
-                            valid={isValid.pass}
+                            onChangeInput={inputChangeHandler}
+                            onValidity={inputValidityHandler}
+                            valid={isValid.password}
                             warning="Password must be at least 8 characters long!"
+                            styles={style}
+                        />
+
+                        <Input
+                            value={value.passwordConfirm}
+                            type="password"
+                            name="passwordConfirm"
+                            text="Confirm Password"
+                            onChangeInput={inputChangeHandler}
+                            onValidity={inputValidityHandler}
+                            valid={isValid.passwordConfirm}
+                            warning="Please add matching passwords!"
                             styles={style}
                         />
 

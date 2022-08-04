@@ -3,7 +3,7 @@ import ListingItem from "./ListingItem";
 import ListingSearch from "../UI/Input/ListingSearch";
 import WrapperCard from "../cards/WrapperCard";
 
-const ListingsList = () => {
+const ListingsCatalog = () => {
     return (
         <WrapperCard>
             <ListingSearch />
@@ -34,4 +34,4 @@ const ListingsList = () => {
     );
 };
 
-export default ListingsList;
+export default ListingsCatalog;

@@ -4,17 +4,13 @@ const Input = (props) => {
     const [isTouched, setIsTouched] = useState(false);
 
     const changeInputHandler = (e) => {
-        if (props.name === "email") {
-            props.onValidity(!e.target.validity.typeMismatch);
-        } else if (props.name === "password") {
-            props.onValidity(e.target.value.trim().length > 7);
-        } else if (props.name === "text") {
-            props.onValidity(e.target.value.trim().length > 0);
-        } else if (props.name === "number") {
-            props.onValidity(e.target.value > 19);
-        }
         setIsTouched(false);
-        props.onChangeInput(e.target.value);
+        props.onChangeInput(e.target.value, e.target.name);
+        if (e.target.name === "email") {
+            props.onValidity(e.target.validity.valid, e.target.name);
+        } else {
+            props.onValidity(e.target.value, e.target.name);
+        }
     };
     const touchHandler = () => {
         setIsTouched(true);
@@ -25,7 +21,7 @@ const Input = (props) => {
                 <input
                     value={props.value}
                     name={props.name}
-                    type={props.name}
+                    type={props.type}
                     autoComplete={props.name}
                     required
                     className={props.styles}

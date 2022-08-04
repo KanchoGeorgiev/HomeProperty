@@ -1,8 +1,8 @@
 import React from "react";
-import ListingsList from "../components/PropertiesList/ListingsList";
+import ListingsCatalog from "../components/PropertiesList/ListingsCatalog";
 
 const Listings = () => {
-    return <ListingsList />;
+    return <ListingsCatalog />;
 };
 
 export default Listings;
