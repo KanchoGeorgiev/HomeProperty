@@ -13,10 +13,40 @@ import ListingItemDetail from "./pages/ListingItemDetail";
 import NewAgent from "./pages/NewAgent";
 import NewListing from "./pages/NewListing";
 import NotFound from "./pages/NotFound";
+import AuthContext from "./contexts/AuthContext";
+import { useState } from "react";
 
 function App() {
+    const [isLoggedIn, setIsLoggedIn] = useState(() => {
+        const data = localStorage.getItem("auth");
+        if (data) {
+            return true;
+        } else {
+            return false;
+        }
+    });
+    const [userData, setUserData] = useState({});
+    const login = (newData) => {
+        setUserData(newData);
+        localStorage.setItem("auth", JSON.stringify(newData));
+        setIsLoggedIn(true);
+    };
+    const logout = () => {
+        const data = localStorage.getItem("auth");
+        const storedData = JSON.parse(data);
+        fetch("/site/logout", {
+            method: "POST",
+            headers: {
+                "X-Api-Key": storedData.token,
+                "Content-Type": "application/json",
+            },
+        });
+        localStorage.clear("auth");
+        setIsLoggedIn(false);
+        setUserData({});
+    };
     return (
-        <>
+        <AuthContext.Provider value={{ isLoggedIn, userData, login, logout }}>
             <Header />
 
             <Routes>
@@ -39,7 +69,7 @@ function App() {
             </Routes>
 
             <Footer />
-        </>
+        </AuthContext.Provider>
     );
 }
 

@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "./Input/Input";
+import AuthContext from "../../contexts/AuthContext";
 
 const LoginComponent = () => {
     const [value, setValue] = useState({ email: "", password: "" });
     const [isValid, setIsValid] = useState({ email: false, password: false });
+    const [warning, setWarning] = useState("Please, enter valid e-mail!");
+    const { login } = useContext(AuthContext);
     const style =
         "w-full rounded-md border bordder-primary p-3 bg-primary text-base hover:bg-opacity-90 transition";
     const navigate = useNavigate();
@@ -27,13 +30,28 @@ const LoginComponent = () => {
             });
         }
     };
-    const submitUserHandler = (e) => {
+    const submitUserHandler = async (e) => {
         e.preventDefault();
         if (isValid.email && isValid.password) {
-            console.log(value);
-            setValue({ password: "", email: "" });
-            setIsValid({ email: false, password: false });
-            navigate("/home");
+            const response = await fetch("/site/login", {
+                method: "POST",
+                body: JSON.stringify(value),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            if (response.ok) {
+                const data = await response.json();
+                login(data);
+                setValue({ password: "", email: "" });
+                setIsValid({ email: false, password: false });
+                navigate("/home");
+            } else {
+                setIsValid((prevValue) => {
+                    return { ...prevValue, email: false };
+                });
+                setWarning("Account or pasword incorrect!");
+            }
         }
     };
     return (
@@ -60,7 +78,7 @@ const LoginComponent = () => {
                             onChangeInput={inputChangeHandler}
                             onValidity={inputValidityHandler}
                             valid={isValid.email}
-                            warning="Please, enter valid e-mail!"
+                            warning={warning}
                             styles={style}
                         />
                         <Input

@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "./Input/Input";
+import AuthContext from "../../contexts/AuthContext";
 
-const RegisterComponent = () => {
+const RegisterComponent = (props) => {
     const [value, setValue] = useState({
         email: "",
         password: "",
         passwordConfirm: "",
+        type: props.type,
     });
     const [isValid, setIsValid] = useState({
         email: false,
@@ -15,6 +17,7 @@ const RegisterComponent = () => {
         passwordConfirm: false,
     });
     const navigate = useNavigate();
+    const { login } = useContext(AuthContext);
     const style =
         "w-full rounded-md border bordder-primary p-3 bg-primary text-base hover:bg-opacity-90 transition";
 
@@ -40,19 +43,47 @@ const RegisterComponent = () => {
         }
     };
 
-    const submitUserHandler = (e) => {
+    const submitUserHandler = async (e) => {
         e.preventDefault();
         if (isValid.email && isValid.password && isValid.passwordConfirm) {
-            setValue({ email: "", password: "", passwordConfirm: "" });
-            setIsValid({
-                email: false,
-                password: false,
-                passwordConfirm: false,
+            const response = await fetch("/user/create", {
+                method: "POST",
+                body: JSON.stringify(value),
+                headers: {
+                    "Content-Type": "application/json",
+                },
             });
-            navigate("/home");
+            if (response.ok) {
+                const loginData = {
+                    email: value.email,
+                    password: value.password,
+                };
+                const loginUser = await fetch("/site/login", {
+                    method: "POST",
+                    body: JSON.stringify(loginData),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+                if (loginUser.ok) {
+                    const data = await loginUser.json();
+                    login(data);
+                    setValue({ email: "", password: "", passwordConfirm: "" });
+                    setIsValid({
+                        email: false,
+                        password: false,
+                        passwordConfirm: false,
+                    });
+                    navigate("/home");
+                } else {
+                    alert("something went wrong");
+                }
+            } else {
+                alert("Register unsuccessful");
+            }
         }
     };
-    
+
     return (
         <>
             <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -62,7 +93,7 @@ const RegisterComponent = () => {
                             Home <span className="text-blue-400">Property</span>
                         </div>
                         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                            Sign in to your account
+                            {props.title}
                         </h2>
                     </div>
                     <form
