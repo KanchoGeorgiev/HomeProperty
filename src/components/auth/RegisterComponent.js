@@ -1,8 +1,9 @@
 import React, { useState, useContext } from "react";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { Link, useNavigate } from "react-router-dom";
-import Input from "./Input/Input";
+import Input from "../UI/Input/Input";
 import AuthContext from "../../contexts/AuthContext";
+import { authService } from "../../services/authService";
 
 const RegisterComponent = (props) => {
     const [value, setValue] = useState({
@@ -46,25 +47,13 @@ const RegisterComponent = (props) => {
     const submitUserHandler = async (e) => {
         e.preventDefault();
         if (isValid.email && isValid.password && isValid.passwordConfirm) {
-            const response = await fetch("/user/create", {
-                method: "POST",
-                body: JSON.stringify(value),
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
+            const response = await authService(value, "reg");
             if (response.ok) {
                 const loginData = {
                     email: value.email,
                     password: value.password,
                 };
-                const loginUser = await fetch("/site/login", {
-                    method: "POST",
-                    body: JSON.stringify(loginData),
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                });
+                const loginUser = await authService(loginData, "log");
                 if (loginUser.ok) {
                     const data = await loginUser.json();
                     login(data);

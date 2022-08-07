@@ -1,8 +1,9 @@
 import React, { useState, useContext } from "react";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { Link, useNavigate } from "react-router-dom";
-import Input from "./Input/Input";
+import Input from "../../components/UI/Input/Input";
 import AuthContext from "../../contexts/AuthContext";
+import { authService } from "../../services/authService";
 
 const LoginComponent = () => {
     const [value, setValue] = useState({ email: "", password: "" });
@@ -33,13 +34,7 @@ const LoginComponent = () => {
     const submitUserHandler = async (e) => {
         e.preventDefault();
         if (isValid.email && isValid.password) {
-            const response = await fetch("/site/login", {
-                method: "POST",
-                body: JSON.stringify(value),
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
+             const response = await authService(value, "log");
             if (response.ok) {
                 const data = await response.json();
                 login(data);

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Map from "../../UI/Map";
 import Input from "../../UI/Input/Input";
+import AuthContext from "../../../contexts/AuthContext";
 
 const NewListingComponent = () => {
     const [inputValue, setInputValue] = useState({
@@ -9,7 +10,7 @@ const NewListingComponent = () => {
         area: 0,
         price: 0,
         city: "",
-        address: "",
+        street: "",
         lat: 0,
         lng: 0,
     });
@@ -19,100 +20,80 @@ const NewListingComponent = () => {
         area: false,
         price: false,
         city: false,
-        address: false,
+        street: false,
     });
+
+    const { userData } = useContext(AuthContext);
 
     const style =
         "w-full block rounded-md border bordder-primary py-3 px-5 mt-3 bg-primary text-base";
     const navigate = useNavigate();
-    const formSubmitHandler = (e) => {
+    const formSubmitHandler = async (e) => {
         e.preventDefault();
         if (
             isValid.headline &&
             isValid.area &&
             isValid.price &&
             isValid.city &&
-            isValid.address
+            isValid.street
         ) {
-            console.log(inputValue);
-            setIsValid({
-                headline: false,
-                area: false,
-                price: false,
-                city: false,
-                address: false,
+            const response = await fetch("property/create", {
+                method: "POST",
+                headers: {
+                    "X-Api-Key": userData.token,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    headline: inputValue.headline,
+                    price: inputValue.price,
+                    area: inputValue.area,
+                    city: inputValue.city,
+                    street: inputValue.street,
+                    description: "Some text for now",
+                }),
             });
-            setInputValue({
-                headline: "",
-                area: 0,
-                price: 0,
-                city: "",
-                address: "",
-                lat: 0,
-                lng: 0,
-            });
-            navigate("/home");
+            if (response.ok) {
+                setIsValid({
+                    headline: false,
+                    area: false,
+                    price: false,
+                    city: false,
+                    address: false,
+                });
+                setInputValue({
+                    headline: "",
+                    area: 0,
+                    price: 0,
+                    city: "",
+                    address: "",
+                    lat: 0,
+                    lng: 0,
+                });
+                navigate("/home");
+            } else {
+                console.log(response);
+            }
         }
     };
 
-    const headlineChangeHandler = (data) => {
+    const inputChangeHandler = (data, name) => {
         setInputValue((prevState) => {
-            return { ...prevState, headline: data };
+            return { ...prevState, [name]: data };
         });
     };
 
-    const headlineValidation = (data) => {
-        setIsValid((prevValue) => {
-            return { ...prevValue, headline: data };
-        });
+    const inputValidation = (data, name) => {
+        if (name === "headline" || name === "city" || name === "street") {
+            setIsValid((prevValue) => {
+                return { ...prevValue, [name]: data.trim().length > 0 };
+            });
+        } else {
+            setIsValid((prevValue) => {
+                return { ...prevValue, [name]: data > 19 };
+            });
+        }
     };
 
-    const areaChangeHandler = (data) => {
-        setInputValue((prevState) => {
-            return { ...prevState, area: data };
-        });
-    };
-
-    const areaValidation = (data) => {
-        setIsValid((prevValue) => {
-            return { ...prevValue, area: data };
-        });
-    };
-
-    const priceChangeHandler = (data) => {
-        setInputValue((prevState) => {
-            return { ...prevState, price: data };
-        });
-    };
-
-    const priceValidation = (data) => {
-        setIsValid((prevValue) => {
-            return { ...prevValue, price: data };
-        });
-    };
-
-    const cityChangeHandler = (data) => {
-        setInputValue((prevState) => {
-            return { ...prevState, city: data };
-        });
-    };
-
-    const cityValidation = (data) => {
-        setIsValid((prevValue) => {
-            return { ...prevValue, city: data };
-        });
-    };
-    const addressChangeHandler = (data) => {
-        setInputValue((prevState) => {
-            return { ...prevState, address: data };
-        });
-    };
-
-    const addressValidation = (data) => {
-        setIsValid((prevValue) => {
-            return { ...prevValue, address: data };
-        });
-    };
     const coordinatesChangeHandler = (data1, data2) => {
         setInputValue((prevState) => {
             return { ...prevState, lat: data1, lng: data2 };
@@ -137,10 +118,11 @@ const NewListingComponent = () => {
                         <div className="mb-5">
                             <Input
                                 value={inputValue.headline}
-                                name="text"
+                                type="text"
+                                name="headline"
                                 text="Headline"
-                                onChangeInput={headlineChangeHandler}
-                                onValidity={headlineValidation}
+                                onChangeInput={inputChangeHandler}
+                                onValidity={inputValidation}
                                 valid={isValid.headline}
                                 warning="This field must be filled!"
                                 styles={style}
@@ -148,10 +130,11 @@ const NewListingComponent = () => {
 
                             <Input
                                 value={inputValue.area}
-                                name="number"
+                                type="number"
+                                name="area"
                                 text="Area"
-                                onChangeInput={areaChangeHandler}
-                                onValidity={areaValidation}
+                                onChangeInput={inputChangeHandler}
+                                onValidity={inputValidation}
                                 valid={isValid.area}
                                 warning="This field must be filled!"
                                 styles={style}
@@ -166,10 +149,11 @@ const NewListingComponent = () => {
 
                             <Input
                                 value={inputValue.price}
-                                name="number"
+                                type="number"
+                                name="price"
                                 text="Price"
-                                onChangeInput={priceChangeHandler}
-                                onValidity={priceValidation}
+                                onChangeInput={inputChangeHandler}
+                                onValidity={inputValidation}
                                 valid={isValid.price}
                                 warning="This field must be filled!"
                                 styles={style}
@@ -179,22 +163,24 @@ const NewListingComponent = () => {
 
                             <Input
                                 value={inputValue.city}
-                                name="text"
+                                type="text"
+                                name="city"
                                 text="City"
-                                onChangeInput={cityChangeHandler}
-                                onValidity={cityValidation}
+                                onChangeInput={inputChangeHandler}
+                                onValidity={inputValidation}
                                 valid={isValid.city}
                                 warning="This field must be filled!"
                                 styles={style}
                             />
 
                             <Input
-                                value={inputValue.address}
-                                name="text"
+                                value={inputValue.street}
+                                type="text"
+                                name="street"
                                 text="Address"
-                                onChangeInput={addressChangeHandler}
-                                onValidity={addressValidation}
-                                valid={isValid.address}
+                                onChangeInput={inputChangeHandler}
+                                onValidity={inputValidation}
+                                valid={isValid.street}
                                 warning="This field must be filled!"
                                 styles={style}
                             />

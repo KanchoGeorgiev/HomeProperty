@@ -13,40 +13,11 @@ import ListingItemDetail from "./pages/ListingItemDetail";
 import NewAgent from "./pages/NewAgent";
 import NewListing from "./pages/NewListing";
 import NotFound from "./pages/NotFound";
-import AuthContext from "./contexts/AuthContext";
-import { useState } from "react";
+import { AuthContextProvider } from "./contexts/AuthContext";
 
 function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState(() => {
-        const data = localStorage.getItem("auth");
-        if (data) {
-            return true;
-        } else {
-            return false;
-        }
-    });
-    const [userData, setUserData] = useState({});
-    const login = (newData) => {
-        setUserData(newData);
-        localStorage.setItem("auth", JSON.stringify(newData));
-        setIsLoggedIn(true);
-    };
-    const logout = () => {
-        const data = localStorage.getItem("auth");
-        const storedData = JSON.parse(data);
-        fetch("/site/logout", {
-            method: "POST",
-            headers: {
-                "X-Api-Key": storedData.token,
-                "Content-Type": "application/json",
-            },
-        });
-        localStorage.clear("auth");
-        setIsLoggedIn(false);
-        setUserData({});
-    };
     return (
-        <AuthContext.Provider value={{ isLoggedIn, userData, login, logout }}>
+        <AuthContextProvider>
             <Header />
 
             <Routes>
@@ -56,6 +27,7 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/newagent" element={<NewAgent />} />
                 <Route path="/listings" element={<Listings />} />
+                <Route path="/newlisting" element={<NewListing />} />
                 <Route path="/contacts" element={<Contacts />} />
                 <Route path="/calendar" element={<Calendar />} />
                 <Route path="/profile" element={<UserProfile />} />
@@ -64,12 +36,11 @@ function App() {
                     path="/listings/detail"
                     element={<ListingItemDetail />}
                 />
-                <Route path="/newlisting" element={<NewListing />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
 
             <Footer />
-        </AuthContext.Provider>
+        </AuthContextProvider>
     );
 }
 
