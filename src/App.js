@@ -13,6 +13,7 @@ import Edit from "./pages/Edit";
 import ListingItemDetail from "./pages/ListingItemDetail";
 import NewAgent from "./pages/NewAgent";
 import NewListing from "./pages/NewListing";
+import Appointment from "./pages/Appointment";
 import NotFound from "./pages/NotFound";
 import Forbidden from "./pages/Forbidden";
 import PrivateRoutesAgent from "./components/common/PrivateRoutesAgent";
@@ -37,6 +38,10 @@ function App() {
                     <Route
                         path="/listings/:detailId"
                         element={<ListingItemDetail />}
+                    />
+                    <Route
+                        path="/listings/:detailId/appointment"
+                        element={<Appointment />}
                     />
                     <Route path="/profile" element={<UserProfile />} />
                     <Route path="/settings" element={<UserSettings />} />

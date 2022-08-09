@@ -3,8 +3,8 @@ import { GoogleMap, Marker } from "@react-google-maps/api";
 
 const Map = (props) => {
     const center = {
-        lat: 42.6903,
-        lng: 23.405,
+        lat: props.lat ? props.lat : 42.6903,
+        lng: props.lng ? props.lng : 23.405,
     };
     const clickHandler = (e) => {
         props.onSelectLocation(e.latLng.lat(), e.latLng.lng());

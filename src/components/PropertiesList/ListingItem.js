@@ -5,7 +5,11 @@ const ListingItem = (props) => {
     return (
         <div className="max-w-xs bg-white rounded-lg border border-gray-200 shadow-md">
             <Link to="/listings/detail">
-                <img className="rounded-t-lg" src="/img/1.png" alt="1" />
+                <img
+                    className="rounded-t-lg h-56"
+                    src={props.image}
+                    alt="1"
+                />
             </Link>
             <div className="p-5">
                 <Link to={`/listings/${props.id}`}>

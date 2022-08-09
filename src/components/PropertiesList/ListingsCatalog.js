@@ -20,6 +20,7 @@ const ListingsCatalog = () => {
     useEffect(() => {
         fetchAllData();
     }, []);
+    
     return (
         <WrapperCard>
             <ListingSearch />

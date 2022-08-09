@@ -8,13 +8,14 @@
     }
 }
 body {
+    background-color: rgb(209, 209, 209);
     padding-bottom: 115px;
 }
 .carousel.carousel-slider .control-arrow {
-    background-color: rgb(80, 80, 80);
+    background-color: rgb(255, 255, 255);
     height: 30%;
     top: 35%;
-    opacity: 0.4;
+    opacity: 0.8;
 }
 .carousel .control-prev.control-arrow::before {
     border-right: 8px solid rgb(126, 126, 126);
@@ -37,4 +38,7 @@ body {
 
 #imageBrowse::file-selector-button:hover {
     background-color: rgb(96 165 250);
+}
+.react-datetime-picker__wrapper{
+    border:none;
 }

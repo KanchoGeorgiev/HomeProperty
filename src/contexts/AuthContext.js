@@ -7,10 +7,9 @@ const AuthContext = createContext({
     login: (data) => {},
     logout: () => {},
 });
-
+const data = localStorage.getItem("auth");
 export const AuthContextProvider = (props) => {
     const [isLoggedIn, setIsLoggedIn] = useState(() => {
-        const data = localStorage.getItem("auth");
         if (data) {
             return true;
         } else {
@@ -18,7 +17,13 @@ export const AuthContextProvider = (props) => {
         }
     });
 
-    const [userData, setUserData] = useState({});
+    const [userData, setUserData] = useState(() => {
+        if (data) {
+            return JSON.parse(data);
+        } else {
+            return {};
+        }
+    });
     const loginHandler = (newData) => {
         setUserData(newData);
         localStorage.setItem("auth", JSON.stringify(newData));

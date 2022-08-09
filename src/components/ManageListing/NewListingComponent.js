@@ -11,9 +11,10 @@ const NewListingComponent = () => {
         price: 0,
         city: "",
         street: "",
-        description: "",
-        lat: 0,
-        lng: 0,
+        description: "No description added",
+        type: 0,
+        lat: 42.6903,
+        lng: 23.405,
     });
 
     const [isValid, setIsValid] = useState({
@@ -24,12 +25,13 @@ const NewListingComponent = () => {
         street: false,
         description: true,
     });
+    const [urls, setUrls] = useState([""]);
 
     const { userData } = useContext(AuthContext);
 
     const style =
         "w-full block rounded-md border bordder-primary py-3 px-5 mt-3 bg-primary text-base";
-    
+
     const navigate = useNavigate();
     const formSubmitHandler = async (e) => {
         e.preventDefault();
@@ -40,45 +42,17 @@ const NewListingComponent = () => {
             isValid.city &&
             isValid.street
         ) {
+            console.log(urls);
+            const awayData = { ...inputValue, imageUrls: urls };
             const response = await fetch("property/create", {
                 method: "POST",
                 headers: {
                     "X-Api-Key": userData.token,
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({
-                    headline: inputValue.headline,
-                    price: inputValue.price,
-                    area: inputValue.area,
-                    city: inputValue.city,
-                    street: inputValue.street,
-                    description:
-                        inputValue.description.trim().length > 0
-                            ? inputValue.description
-                            : "No Description Added",
-                    lat: inputValue.lat === 0 ? 42.6903 : inputValue.lat,
-                    lng: inputValue.lng === 0 ? 23.405 : inputValue.lng,
-                }),
+                body: JSON.stringify(awayData),
             });
             if (response.ok) {
-                setIsValid({
-                    headline: false,
-                    area: false,
-                    price: false,
-                    city: false,
-                    address: false,
-                    description: true,
-                });
-                setInputValue({
-                    headline: "",
-                    area: 0,
-                    price: 0,
-                    city: "",
-                    address: "",
-                    description: "",
-                    lat: 0,
-                    lng: 0,
-                });
                 navigate("/listings");
             } else {
                 console.log(response);
@@ -109,6 +83,21 @@ const NewListingComponent = () => {
             return { ...prevState, lat: data1, lng: data2 };
         });
     };
+    const urlInputHandler = (index, e) => {
+        let currentData = [...urls];
+        currentData[index] = e.target.value;
+        setUrls(currentData);
+    };
+    const moreUrlsHandler = (e) => {
+        e.preventDefault();
+        const newField = "";
+        setUrls((prevFields) => [...prevFields, newField]);
+    };
+    const selectInputHandelr = (e) => {
+        setInputValue((prevState) => {
+            return { ...prevState, type: e.target.value };
+        });
+    };
     return (
         <>
             <div className="min-h-full flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -137,7 +126,6 @@ const NewListingComponent = () => {
                                 warning="This field must be filled!"
                                 styles={style}
                             />
-
                             <Input
                                 value={inputValue.area}
                                 type="number"
@@ -149,14 +137,37 @@ const NewListingComponent = () => {
                                 warning="Area must be at least 20 sqare meters!"
                                 styles={style}
                             />
-
-                            <input
-                                id="imageBrowse"
-                                type="file"
-                                className="w-full rounded-md border bordder-primary mt-3 mb-9 bg-primary text-base"
-                                multiple
-                            />
-
+                            {urls.map((x, index) => {
+                                return (
+                                    <input
+                                        name="url"
+                                        key={index}
+                                        type="text"
+                                        className={style}
+                                        value={x.url}
+                                        onChange={(e) =>
+                                            urlInputHandler(index, e)
+                                        }
+                                    />
+                                );
+                            })}
+                            <button
+                                type="submit"
+                                onClick={moreUrlsHandler}
+                                className="group relative mx-auto mt-6 w-1/2 flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-400"
+                            >
+                                Add More URLS
+                            </button>
+                            <span>Please, select propserty type:</span>{" "}
+                            <select
+                                value={inputValue.type}
+                                onChange={selectInputHandelr}
+                            >
+                                <option value={0}>Apartment</option>
+                                <option value={1}>House</option>
+                                <option value={2}>Studio</option>
+                                <option value={3}>Other</option>
+                            </select>
                             <Input
                                 value={inputValue.price}
                                 type="number"
@@ -168,9 +179,7 @@ const NewListingComponent = () => {
                                 warning="Price must be at least 20lv.!"
                                 styles={style}
                             />
-
                             <p className="mt-2 font-bold">Adress:</p>
-
                             <Input
                                 value={inputValue.city}
                                 type="text"
@@ -182,7 +191,6 @@ const NewListingComponent = () => {
                                 warning="This field must be filled!"
                                 styles={style}
                             />
-
                             <Input
                                 value={inputValue.street}
                                 type="text"
@@ -205,7 +213,6 @@ const NewListingComponent = () => {
                                 warning="This field must be filled!"
                                 styles={style}
                             />
-
                             <button
                                 type="submit"
                                 className="group relative mt-6 w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-400"

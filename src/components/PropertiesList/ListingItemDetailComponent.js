@@ -14,12 +14,25 @@ const ListingItemDetailComponent = () => {
     const navigate = useNavigate();
     const params = useParams();
     const [single, setSingle] = useState({});
+    const [imageDataset, setImageDataset] = useState([]);
     const { userData } = useContext(AuthContext);
     const fetchOne = async () => {
         const response = await fetchOneSevice(params.detailId);
         if (response.ok) {
             const data = await response.json();
-            setSingle(data);
+
+            const images = await fetch(`/property/images/${params.detailId}`, {
+                headers: {
+                    "X-Api-Key": userData.token,
+                    "Content-Type": "application/json",
+                },
+            });
+            if (images.ok) {
+                const imageData = await images.json();
+
+                setImageDataset(imageData);
+                setSingle(data);
+            }
         }
     };
 
@@ -32,6 +45,7 @@ const ListingItemDetailComponent = () => {
             navigate("/listings");
         }
     };
+
     return (
         <WrapperCard>
             <div className="grid-row-2">
@@ -41,18 +55,20 @@ const ListingItemDetailComponent = () => {
                         showStatus={false}
                         infiniteLoop={true}
                     >
-                        <div>
-                            <img src="/img/1.png" alt="1" />
-                        </div>
-                        <div>
-                            <img src="/img/2.png" alt="2" />
-                        </div>
-                        <div>
-                            <img src="/img/3.png" alt="3" />
-                        </div>
+                        {imageDataset.map((x) => {
+                            return (
+                                <div key={x.id}>
+                                    <img src={x.image} alt={x.id} />
+                                </div>
+                            );
+                        })}
                     </Carousel>
                     <div className="ml-4 place-self-stretch">
-                        <Map name="map-container" />
+                        <Map
+                            name="map-container"
+                            lng={Number(single.lng)}
+                            lat={Number(single.lat)}
+                        />
                     </div>
                 </div>
                 <div className="flex justify-around">
@@ -79,7 +95,7 @@ const ListingItemDetailComponent = () => {
                 {userData.type === 2 && (
                     <div className="flex justify-around ">
                         <Link
-                            to="/Contacts"
+                            to={`/listings/${params.detailId}/appointment`}
                             className="inline-flex items-center py-3 px-24 text-xl font-bold text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
                         >
                             Make an Appointment
