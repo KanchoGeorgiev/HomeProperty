@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import Map from "../../UI/Map";
-import Input from "../../UI/Input/Input";
-import AuthContext from "../../../contexts/AuthContext";
+import Map from "../UI/Map";
+import Input from "../UI/Input";
+import AuthContext from "../../contexts/AuthContext";
 
 const NewListingComponent = () => {
     const [inputValue, setInputValue] = useState({
@@ -11,6 +11,7 @@ const NewListingComponent = () => {
         price: 0,
         city: "",
         street: "",
+        description: "",
         lat: 0,
         lng: 0,
     });
@@ -21,12 +22,14 @@ const NewListingComponent = () => {
         price: false,
         city: false,
         street: false,
+        description: true,
     });
 
     const { userData } = useContext(AuthContext);
 
     const style =
         "w-full block rounded-md border bordder-primary py-3 px-5 mt-3 bg-primary text-base";
+    
     const navigate = useNavigate();
     const formSubmitHandler = async (e) => {
         e.preventDefault();
@@ -49,7 +52,12 @@ const NewListingComponent = () => {
                     area: inputValue.area,
                     city: inputValue.city,
                     street: inputValue.street,
-                    description: "Some text for now",
+                    description:
+                        inputValue.description.trim().length > 0
+                            ? inputValue.description
+                            : "No Description Added",
+                    lat: inputValue.lat === 0 ? 42.6903 : inputValue.lat,
+                    lng: inputValue.lng === 0 ? 23.405 : inputValue.lng,
                 }),
             });
             if (response.ok) {
@@ -59,6 +67,7 @@ const NewListingComponent = () => {
                     price: false,
                     city: false,
                     address: false,
+                    description: true,
                 });
                 setInputValue({
                     headline: "",
@@ -66,10 +75,11 @@ const NewListingComponent = () => {
                     price: 0,
                     city: "",
                     address: "",
+                    description: "",
                     lat: 0,
                     lng: 0,
                 });
-                navigate("/home");
+                navigate("/listings");
             } else {
                 console.log(response);
             }
@@ -87,7 +97,7 @@ const NewListingComponent = () => {
             setIsValid((prevValue) => {
                 return { ...prevValue, [name]: data.trim().length > 0 };
             });
-        } else {
+        } else if (name === "price" || name === "area") {
             setIsValid((prevValue) => {
                 return { ...prevValue, [name]: data > 19 };
             });
@@ -136,7 +146,7 @@ const NewListingComponent = () => {
                                 onChangeInput={inputChangeHandler}
                                 onValidity={inputValidation}
                                 valid={isValid.area}
-                                warning="This field must be filled!"
+                                warning="Area must be at least 20 sqare meters!"
                                 styles={style}
                             />
 
@@ -155,7 +165,7 @@ const NewListingComponent = () => {
                                 onChangeInput={inputChangeHandler}
                                 onValidity={inputValidation}
                                 valid={isValid.price}
-                                warning="This field must be filled!"
+                                warning="Price must be at least 20lv.!"
                                 styles={style}
                             />
 
@@ -181,6 +191,17 @@ const NewListingComponent = () => {
                                 onChangeInput={inputChangeHandler}
                                 onValidity={inputValidation}
                                 valid={isValid.street}
+                                warning="This field must be filled!"
+                                styles={style}
+                            />
+                            <Input
+                                value={inputValue.description}
+                                type="textarea"
+                                name="description"
+                                text="Description"
+                                onChangeInput={inputChangeHandler}
+                                onValidity={inputValidation}
+                                valid={isValid.description}
                                 warning="This field must be filled!"
                                 styles={style}
                             />

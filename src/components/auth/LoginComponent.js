@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { Link, useNavigate } from "react-router-dom";
-import Input from "../../components/UI/Input/Input";
+import Input from "../../components/UI/Input";
 import AuthContext from "../../contexts/AuthContext";
 import { authService } from "../../services/authService";
 

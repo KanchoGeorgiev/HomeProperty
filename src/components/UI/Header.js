@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef, useContext } from "react";
 import AuthContext from "../../contexts/AuthContext";
 
@@ -8,6 +8,7 @@ const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef();
     const buttonRef = useRef();
+    const navigate = useNavigate();
 
     const showUserMenuHandler = (e) => {
         e.preventDefault();
@@ -38,6 +39,7 @@ const Header = () => {
     const logoutHandler = () => {
         logout();
         setIsOpen(false);
+        navigate("/home")
     };
 
     const buttonActiveStyle = ({ isActive }) =>

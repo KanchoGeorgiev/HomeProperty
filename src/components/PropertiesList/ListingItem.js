@@ -8,7 +8,7 @@ const ListingItem = (props) => {
                 <img className="rounded-t-lg" src="/img/1.png" alt="1" />
             </Link>
             <div className="p-5">
-                <Link to="/listings/detail">
+                <Link to={`/listings/${props.id}`}>
                     <h5 className="mb-2 text-2xl font-bold tracking-tight h-16 text-gray-900 overflow-hidden">
                         {props.headline}
                     </h5>
@@ -17,7 +17,7 @@ const ListingItem = (props) => {
                     {props.description}
                 </p>
                 <Link
-                    to="/listings/detail"
+                    to={`/listings/${props.id}`}
                     className="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
                 >
                     Read more

@@ -9,10 +9,14 @@ import UserProfile from "./pages/UserProfile";
 import UserSettings from "./pages/UserSettings";
 import LoginPage from "./pages/Login";
 import Register from "./pages/Register";
+import Edit from "./pages/Edit";
 import ListingItemDetail from "./pages/ListingItemDetail";
 import NewAgent from "./pages/NewAgent";
 import NewListing from "./pages/NewListing";
 import NotFound from "./pages/NotFound";
+import Forbidden from "./pages/Forbidden";
+import PrivateRoutesAgent from "./components/common/PrivateRoutesAgent";
+import PrivateRoutesCommon from "./components/common/PrivateRoutesCommon";
 import { AuthContextProvider } from "./contexts/AuthContext";
 
 function App() {
@@ -26,16 +30,23 @@ function App() {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/newagent" element={<NewAgent />} />
-                <Route path="/listings" element={<Listings />} />
-                <Route path="/newlisting" element={<NewListing />} />
+
                 <Route path="/contacts" element={<Contacts />} />
-                <Route path="/calendar" element={<Calendar />} />
-                <Route path="/profile" element={<UserProfile />} />
-                <Route path="/settings" element={<UserSettings />} />
-                <Route
-                    path="/listings/detail"
-                    element={<ListingItemDetail />}
-                />
+                <Route path="/listings" element={<Listings />} />
+                <Route element={<PrivateRoutesCommon />}>
+                    <Route
+                        path="/listings/:detailId"
+                        element={<ListingItemDetail />}
+                    />
+                    <Route path="/profile" element={<UserProfile />} />
+                    <Route path="/settings" element={<UserSettings />} />
+                </Route>
+                <Route element={<PrivateRoutesAgent />}>
+                    <Route path="/calendar" element={<Calendar />} />
+                    <Route path="/newlisting" element={<NewListing />} />
+                    <Route path="/listings/:detailId/edit" element={<Edit />} />
+                </Route>
+                <Route path="/forbidden" element={<Forbidden />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
 
