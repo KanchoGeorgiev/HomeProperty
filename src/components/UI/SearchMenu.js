@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import ListingContext from "../../contexts/ListingContext";
+import { useNavigate } from "react-router-dom";
 
 const SearchMenu = (props) => {
+    const navigate = useNavigate();
     const [inputValue, setInputValue] = useState({
         city: "",
         price: "",
         area: "",
         type: "",
     });
+    const { criteria, search } = useContext(ListingContext);
     const style =
         "w-full rounded-md border bordder-primary p-3 bg-white text-base hover:bg-opacity-90 transition";
     const inputChangeHandler = (data, name) => {
@@ -14,10 +18,14 @@ const SearchMenu = (props) => {
             return { ...prevState, [name]: data.target.value };
         });
     };
+    useEffect(() => {
+        criteria(inputValue);
+    }, [inputValue]);
 
     const submitSearchHandler = (e) => {
         e.preventDefault();
-        console.log(inputValue);
+        search();
+        navigate("/listings");
     };
 
     return (
@@ -27,7 +35,6 @@ const SearchMenu = (props) => {
                     <input
                         value={inputValue.city}
                         type="text"
-                        name="city"
                         placeholder="City"
                         onChange={(e) => {
                             inputChangeHandler(e, "city");
@@ -37,7 +44,6 @@ const SearchMenu = (props) => {
                     <input
                         value={inputValue.price}
                         type="number"
-                        name="price"
                         placeholder="Maximum Price"
                         onChange={(e) => {
                             inputChangeHandler(e, "price");
@@ -47,7 +53,6 @@ const SearchMenu = (props) => {
                     <input
                         value={inputValue.area}
                         type="number"
-                        name="area"
                         placeholder="Minumum Area"
                         onChange={(e) => {
                             inputChangeHandler(e, "area");
@@ -59,7 +64,6 @@ const SearchMenu = (props) => {
                         onChange={(e) => {
                             inputChangeHandler(e, "type");
                         }}
-                        id="countries"
                         className={style}
                     >
                         <option defaultValue={0}>Choose Property type</option>

@@ -40,7 +40,6 @@ const LoginComponent = () => {
             const response = await authService(value, "log");
             if (response.ok) {
                 const data = await response.json();
-                console.log(data);
                 login(data);
                 setValue({ password: "", email: "" });
                 setIsValid({ email: false, password: false });

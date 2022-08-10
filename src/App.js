@@ -18,39 +18,46 @@ import Forbidden from "./pages/Forbidden";
 import PrivateRoutesAgent from "./components/common/PrivateRoutesAgent";
 import PrivateRoutesCommon from "./components/common/PrivateRoutesCommon";
 import { AuthContextProvider } from "./contexts/AuthContext";
+import { ListingContextProvider } from "./contexts/ListingContext";
 
 function App() {
     return (
         <AuthContextProvider>
             <Header />
 
-            <Routes>
-                <Route path="/" element={<Navigate replace to="/home" />} />
-                <Route path="/home" element={<Home />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/newagent" element={<NewAgent />} />
-                <Route path="/contacts" element={<Contacts />} />
-                <Route path="/listings" element={<Listings />} />
-                <Route element={<PrivateRoutesCommon />}>
-                    <Route
-                        path="/listings/:detailId"
-                        element={<ListingItemDetail />}
-                    />
-                    <Route
-                        path="/listings/:detailId/appointment"
-                        element={<Appointment />}
-                    />
-                    <Route path="/settings" element={<UserSettings />} />
-                </Route>
-                <Route element={<PrivateRoutesAgent />}>
-                    <Route path="/calendar" element={<Calendar />} />
-                    <Route path="/newlisting" element={<NewListing />} />
-                    <Route path="/listings/:detailId/edit" element={<Edit />} />
-                </Route>
-                <Route path="/forbidden" element={<Forbidden />} />
-                <Route path="*" element={<NotFound />} />
-            </Routes>
+            <ListingContextProvider>
+                <Routes>
+                    <Route path="/" element={<Navigate replace to="/home" />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/newagent" element={<NewAgent />} />
+                    <Route path="/contacts" element={<Contacts />} />
+
+                    <Route path="/home" element={<Home />} />
+                    <Route path="/listings" element={<Listings />} />
+                    <Route element={<PrivateRoutesCommon />}>
+                        <Route
+                            path="/listings/:detailId"
+                            element={<ListingItemDetail />}
+                        />
+                        <Route
+                            path="/listings/:detailId/appointment"
+                            element={<Appointment />}
+                        />
+                        <Route path="/settings" element={<UserSettings />} />
+                    </Route>
+                    <Route element={<PrivateRoutesAgent />}>
+                        <Route path="/calendar" element={<Calendar />} />
+                        <Route path="/newlisting" element={<NewListing />} />
+                        <Route
+                            path="/listings/:detailId/edit"
+                            element={<Edit />}
+                        />
+                    </Route>
+                    <Route path="/forbidden" element={<Forbidden />} />
+                    <Route path="*" element={<NotFound />} />
+                </Routes>
+            </ListingContextProvider>
 
             <Footer />
         </AuthContextProvider>

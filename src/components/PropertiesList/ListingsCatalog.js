@@ -2,19 +2,14 @@ import React from "react";
 import ListingItem from "./ListingItem";
 import SearchMenu from "../UI/SearchMenu";
 import WrapperCard from "../cards/WrapperCard";
-import { useState, useEffect } from "react";
+import { useEffect, useContext } from "react";
 import { Outlet } from "react-router-dom";
+import ListingContext from "../../contexts/ListingContext";
 
 const ListingsCatalog = () => {
-    const [listings, setListings] = useState([]);
+    const { filteredListings, search } = useContext(ListingContext);
     const fetchAllData = async () => {
-        const response = await fetch("property/index");
-        if (response.ok) {
-            const data = await response.json();
-            setListings(data);
-        } else {
-            alert("Cannot Fetch Data");
-        }
+            search();    
     };
 
     useEffect(() => {
@@ -25,7 +20,7 @@ const ListingsCatalog = () => {
         <WrapperCard>
             <SearchMenu color="bg-blue-700" />
             <div className="mt-4 grid grid-cols-4 gap-4">
-                {listings.map((x) => {
+                {filteredListings.map((x) => {
                     return <ListingItem key={x.id} {...x} />;
                 })}
             </div>

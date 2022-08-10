@@ -159,7 +159,7 @@ const NewListingComponent = () => {
                                 Add More URLS
                             </button>
                             <label
-                                for="countries"
+                                htmlFor="countries"
                                 className="block my-4 text-sm font-medium text-gray-900 dark:text-gray-400"
                             >
                                 Choose a property type:
