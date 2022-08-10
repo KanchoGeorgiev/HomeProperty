@@ -1,8 +1,8 @@
 import React from "react";
-import AppointmentComponent from "../components/ManageListing/AppointmentComponent";
+import NewAppointmentComponent from "../components/ManageListing/NewAppointmentComponent";
 
 const Appointment = () => {
-    return <AppointmentComponent />;
+    return <NewAppointmentComponent />;
 };
 
 export default Appointment;

@@ -1,16 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import WrapperCard from "../cards/WrapperCard";
 import DateTimePicker from "react-datetime-picker";
+import AuthContext from "../../contexts/AuthContext";
 
-const AppointmentComponent = () => {
+const NewAppointmentComponent = () => {
     const [time, setTime] = useState(new Date());
+    const [name, setName] = useState("");
+    const { userData } = useContext(AuthContext);
 
-    const handleChange = (data) => {
+    const dataChangeHandler = (data) => {
         setTime(data);
+    };
+    const nameChangeHandler = (e) => {
+        setName(e.target.value);
     };
 
     const submitMeetingHandler = () => {
+        console.log(name);
         console.log(time);
+        console.log(userData);
     };
 
     return (
@@ -20,12 +28,19 @@ const AppointmentComponent = () => {
                     Please, specify time of the meeting.
                 </h2>
                 <h2 className="mt-6 text-center text-xl font-extrabold text-gray-900">
-                    It will take place in the address specified in the listing.
+                    It will take place in the address designated in the listing.
                 </h2>
+                <input
+                    onChange={nameChangeHandler}
+                    value={name}
+                    type="text"
+                    className="w-1/3 block rounded-md border bordder-primary py-3 px-5 mt-3 bg-primary text-base"
+                    placeholder="Please enter your name"
+                />
                 <DateTimePicker
-                    onChange={handleChange}
+                    onChange={dataChangeHandler}
                     value={time}
-                    className="w-1/3 rounded-md border-2 border-gray-900 bordder-primary p-2 bg-primary mt-4 text-base hover:bg-opacity-90 transition"
+                    className="w-1/3 rounded-md border-2 bordder-primary p-2 bg-white mt-4 text-base hover:bg-opacity-90 transition"
                 />
                 <button
                     type="button"
@@ -39,4 +54,4 @@ const AppointmentComponent = () => {
     );
 };
 
-export default AppointmentComponent;
+export default NewAppointmentComponent;

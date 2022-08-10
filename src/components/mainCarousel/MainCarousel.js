@@ -3,7 +3,7 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import WrapperCard from "../cards/WrapperCard";
 import background from "../../img/Background.jpg";
-import ListingSearch from "../UI/ListingSearch";
+import SearchMenu from "../UI/SearchMenu";
 
 const MainCarousel = () => {
     const redirectHandelr = (e) => {
@@ -20,7 +20,7 @@ const MainCarousel = () => {
                 </p>
                 <WrapperCard>
                     <div className="p-10">
-                        <ListingSearch />
+                        <SearchMenu color="bg-gray-900" />
                     </div>
                 </WrapperCard>
             </div>

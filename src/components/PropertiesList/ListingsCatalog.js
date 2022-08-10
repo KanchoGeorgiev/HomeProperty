@@ -1,6 +1,6 @@
 import React from "react";
 import ListingItem from "./ListingItem";
-import ListingSearch from "../UI/ListingSearch";
+import SearchMenu from "../UI/SearchMenu";
 import WrapperCard from "../cards/WrapperCard";
 import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
@@ -20,10 +20,10 @@ const ListingsCatalog = () => {
     useEffect(() => {
         fetchAllData();
     }, []);
-    
+
     return (
         <WrapperCard>
-            <ListingSearch />
+            <SearchMenu color="bg-blue-700" />
             <div className="mt-4 grid grid-cols-4 gap-4">
                 {listings.map((x) => {
                     return <ListingItem key={x.id} {...x} />;

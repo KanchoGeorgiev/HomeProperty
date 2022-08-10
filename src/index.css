@@ -46,3 +46,6 @@ body {
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: rgb(255, 255, 255);
 }
+.react-calendar__tile--active:enabled {
+    background-color:#056dd4;
+}
