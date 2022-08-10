@@ -1,7 +1,8 @@
 import React from "react";
+import UserSettingsComponent from "../components/auth/UserSettingsComponent";
 
 const UserSettings = () => {
-    return <div>UserSettings</div>;
+    return <UserSettingsComponent />;
 };
 
 export default UserSettings;

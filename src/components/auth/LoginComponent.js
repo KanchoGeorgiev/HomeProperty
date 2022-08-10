@@ -15,6 +15,9 @@ const LoginComponent = () => {
     const navigate = useNavigate();
 
     const inputChangeHandler = (data, name) => {
+        setIsValid((prevValue) => {
+            return { ...prevValue, [name]: true };
+        });
         setValue((prevValue) => {
             return { ...prevValue, [name]: data };
         });
@@ -34,9 +37,10 @@ const LoginComponent = () => {
     const submitUserHandler = async (e) => {
         e.preventDefault();
         if (isValid.email && isValid.password) {
-             const response = await authService(value, "log");
+            const response = await authService(value, "log");
             if (response.ok) {
                 const data = await response.json();
+                console.log(data);
                 login(data);
                 setValue({ password: "", email: "" });
                 setIsValid({ email: false, password: false });

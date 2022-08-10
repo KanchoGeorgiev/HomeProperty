@@ -6,6 +6,7 @@ const AuthContext = createContext({
     userData: {},
     login: (data) => {},
     logout: () => {},
+    imageUpdate: (data) => {},
 });
 const data = localStorage.getItem("auth");
 export const AuthContextProvider = (props) => {
@@ -35,11 +36,17 @@ export const AuthContextProvider = (props) => {
         setIsLoggedIn(false);
         setUserData({});
     };
+    const imageUpdateHandler = (data) => {
+        setUserData((prevData) => {
+            return { ...prevData, icon: data };
+        });
+    };
     const contextData = {
         isLoggedIn,
         userData,
         login: loginHandler,
         logout: logoutHandler,
+        imageUpdate: imageUpdateHandler,
     };
     return (
         <AuthContext.Provider value={contextData}>

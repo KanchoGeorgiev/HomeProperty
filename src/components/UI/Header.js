@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef, useContext } from "react";
 import AuthContext from "../../contexts/AuthContext";
+import defAvatar from "../../img/images.png";
 
 const Header = () => {
     const { isLoggedIn, logout, userData } = useContext(AuthContext);
@@ -14,12 +15,6 @@ const Header = () => {
         e.preventDefault();
         setIsOpen((prevState) => !prevState);
     };
-    useEffect(() => {
-        document.addEventListener("mousedown", handleOutsideClicks);
-        return () => {
-            document.removeEventListener("mousedown", handleOutsideClicks);
-        };
-    }, [isOpen]);
 
     const handleOutsideClicks = (e) => {
         if (
@@ -32,6 +27,12 @@ const Header = () => {
             setIsOpen(false);
         }
     };
+    useEffect(() => {
+        document.addEventListener("mousedown", handleOutsideClicks);
+        return () => {
+            document.removeEventListener("mousedown", handleOutsideClicks);
+        };
+    }, [isOpen]);
 
     const closeUserMenuHandler = () => {
         setIsOpen(false);
@@ -39,7 +40,7 @@ const Header = () => {
     const logoutHandler = () => {
         logout();
         setIsOpen(false);
-        navigate("/home")
+        navigate("/home");
     };
 
     const buttonActiveStyle = ({ isActive }) =>
@@ -149,8 +150,13 @@ const Header = () => {
                                                     </span>
                                                     <img
                                                         className="h-8 w-8 rounded-full"
-                                                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                                        alt=""
+                                                        src={
+                                                            userData.icon ===
+                                                            null
+                                                                ? defAvatar
+                                                                : userData.icon
+                                                        }
+                                                        alt="1"
                                                     />
                                                 </button>
                                             </div>
@@ -163,19 +169,6 @@ const Header = () => {
                                                     tabIndex="-1"
                                                     ref={dropdownRef}
                                                 >
-                                                    <Link
-                                                        to="/profile"
-                                                        className="block px-4 py-2 text-sm text-gray-700"
-                                                        role="menuitem"
-                                                        tabIndex="-1"
-                                                        id="user-menu-item-0"
-                                                        onClick={
-                                                            closeUserMenuHandler
-                                                        }
-                                                    >
-                                                        Your Profile
-                                                    </Link>
-
                                                     <Link
                                                         to="/settings"
                                                         className="block px-4 py-2 text-sm text-gray-700"

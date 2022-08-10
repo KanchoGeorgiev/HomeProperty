@@ -5,7 +5,6 @@ import Home from "./pages/Home";
 import Listings from "./pages/Listings";
 import Contacts from "./pages/Contacts";
 import Calendar from "./pages/Calendar";
-import UserProfile from "./pages/UserProfile";
 import UserSettings from "./pages/UserSettings";
 import LoginPage from "./pages/Login";
 import Register from "./pages/Register";
@@ -31,7 +30,6 @@ function App() {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/newagent" element={<NewAgent />} />
-
                 <Route path="/contacts" element={<Contacts />} />
                 <Route path="/listings" element={<Listings />} />
                 <Route element={<PrivateRoutesCommon />}>
@@ -43,7 +41,6 @@ function App() {
                         path="/listings/:detailId/appointment"
                         element={<Appointment />}
                     />
-                    <Route path="/profile" element={<UserProfile />} />
                     <Route path="/settings" element={<UserSettings />} />
                 </Route>
                 <Route element={<PrivateRoutesAgent />}>

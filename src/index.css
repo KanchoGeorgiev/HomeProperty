@@ -8,7 +8,7 @@
     }
 }
 body {
-    background-color: rgb(209, 209, 209);
+    background-color: rgb(221, 221, 221);
     padding-bottom: 115px;
 }
 .carousel.carousel-slider .control-arrow {
@@ -39,6 +39,10 @@ body {
 #imageBrowse::file-selector-button:hover {
     background-color: rgb(96 165 250);
 }
-.react-datetime-picker__wrapper{
-    border:none;
+.react-datetime-picker__wrapper {
+    border: none;
+}
+.stroke {
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: rgb(255, 255, 255);
 }
