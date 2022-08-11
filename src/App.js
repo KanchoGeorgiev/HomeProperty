@@ -1,16 +1,13 @@
+import { Route, Routes, Navigate } from "react-router-dom";
 import Header from "./components/UI/Header";
 import Footer from "./components/UI/Footer";
-import { Route, Routes, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Listings from "./pages/Listings";
 import Contacts from "./pages/Contacts";
 import Calendar from "./pages/Calendar";
-import UserSettings from "./pages/UserSettings";
 import LoginPage from "./pages/Login";
-import Register from "./pages/Register";
 import Edit from "./pages/Edit";
 import ListingItemDetail from "./pages/ListingItemDetail";
-import NewAgent from "./pages/NewAgent";
 import NewListing from "./pages/NewListing";
 import Appointment from "./pages/Appointment";
 import NotFound from "./pages/NotFound";
@@ -19,6 +16,11 @@ import PrivateRoutesAgent from "./components/common/PrivateRoutesAgent";
 import PrivateRoutesCommon from "./components/common/PrivateRoutesCommon";
 import { AuthContextProvider } from "./contexts/AuthContext";
 import { ListingContextProvider } from "./contexts/ListingContext";
+import LoadingComponent from "./components/UI/LoadingComponent";
+import { lazy, Suspense } from "react";
+const UserSettings = lazy(() => import("./pages/UserSettings"));
+const Register = lazy(() => import("./pages/Register"));
+const NewAgent = lazy(() => import("./pages/NewAgent"));
 
 function App() {
     return (
@@ -29,8 +31,22 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Navigate replace to="/home" />} />
                     <Route path="/login" element={<LoginPage />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route path="/newagent" element={<NewAgent />} />
+                    <Route
+                        path="/register"
+                        element={
+                            <Suspense fallback={<LoadingComponent />}>
+                                <Register />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/newagent"
+                        element={
+                            <Suspense fallback={<LoadingComponent />}>
+                                <NewAgent />
+                            </Suspense>
+                        }
+                    />
                     <Route path="/contacts" element={<Contacts />} />
 
                     <Route path="/home" element={<Home />} />
@@ -44,7 +60,14 @@ function App() {
                             path="/listings/:detailId/appointment"
                             element={<Appointment />}
                         />
-                        <Route path="/settings" element={<UserSettings />} />
+                        <Route
+                            path="/settings"
+                            element={
+                                <Suspense fallback={<LoadingComponent />}>
+                                    <UserSettings />
+                                </Suspense>
+                            }
+                        />
                     </Route>
                     <Route element={<PrivateRoutesAgent />}>
                         <Route path="/calendar" element={<Calendar />} />
