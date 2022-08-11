@@ -22,7 +22,7 @@ const MainCarousel = () => {
     // }
     useEffect(() => {
         search();
-    }, [search]);
+    }, []);
 
     return (
         <>

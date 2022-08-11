@@ -10,7 +10,7 @@ const ListingsCatalog = () => {
     const { filteredListings, search } = useContext(ListingContext);
     useEffect(() => {
         search();
-    }, [search]);
+    }, []);
 
     return (
         <WrapperCard>
