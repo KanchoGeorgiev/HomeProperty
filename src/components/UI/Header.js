@@ -78,18 +78,12 @@ const Header = () => {
                                         Listings
                                     </NavLink>
 
-                                    <NavLink
-                                        to="/contacts"
-                                        className={buttonActiveStyle}
-                                    >
-                                        Contacts
-                                    </NavLink>
                                     {isLoggedIn && userData.type === 1 && (
                                         <NavLink
                                             to="/calendar"
                                             className={buttonActiveStyle}
                                         >
-                                            Calendar
+                                            Appointments
                                         </NavLink>
                                     )}
                                     {isLoggedIn && userData.type === 1 && (
@@ -100,6 +94,12 @@ const Header = () => {
                                             New Listing
                                         </NavLink>
                                     )}
+                                    <NavLink
+                                        to="/contacts"
+                                        className={buttonActiveStyle}
+                                    >
+                                        Contacts
+                                    </NavLink>
                                 </div>
                             </div>
                         </div>

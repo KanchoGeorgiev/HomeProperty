@@ -41,7 +41,6 @@ const NewListingComponent = () => {
             isValid.city &&
             isValid.street
         ) {
-            console.log(urls);
             const awayData = { ...inputValue, imageUrls: urls };
             const response = await fetch("property/create", {
                 method: "POST",

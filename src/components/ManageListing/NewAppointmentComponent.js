@@ -2,23 +2,53 @@ import React, { useState, useContext } from "react";
 import WrapperCard from "../cards/WrapperCard";
 import DateTimePicker from "react-datetime-picker";
 import AuthContext from "../../contexts/AuthContext";
-
+import Input from "../UI/Input";
+import { dateConvert } from "../../services/dateConvertService";
+import { useParams, useNavigate } from "react-router-dom";
 const NewAppointmentComponent = () => {
     const [time, setTime] = useState(new Date());
     const [name, setName] = useState("");
+    const [nameIsValid, setNameIsValid] = useState(false);
     const { userData } = useContext(AuthContext);
+    const params = useParams();
+    const navigate = useNavigate();
+    const style =
+        "w-full rounded-md border bordder-primary p-3 bg-primary text-base hover:bg-opacity-90 transition";
 
     const dataChangeHandler = (data) => {
         setTime(data);
     };
-    const nameChangeHandler = (e) => {
-        setName(e.target.value);
+    const nameChangeHandler = (data) => {
+        setName(data);
     };
-
-    const submitMeetingHandler = () => {
-        console.log(name);
-        console.log(time);
-        console.log(userData);
+    const nameValidHandler = (data) => {
+        setNameIsValid(data.trim().length > 0);
+    };
+    const submitMeetingHandler = async () => {
+        const convertedTime = dateConvert(time);
+        const bodyData = {
+            name,
+            time: convertedTime,
+            property_id: params.detailId,
+        };
+        if (nameIsValid) {
+            const response = await fetch("/property/add-appointment", {
+                method: "POST",
+                headers: {
+                    "X-Api-Key": userData.token,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(bodyData),
+            });
+            if (response.ok) {
+                navigate(`/listings/${params.detailId}`);
+            } else {
+                alert("Appointment unsuccessful!");
+            }
+            setTime(new Date());
+            setName("");
+            setNameIsValid(false);
+        }
     };
 
     return (
@@ -30,13 +60,19 @@ const NewAppointmentComponent = () => {
                 <h2 className="mt-6 text-center text-xl font-extrabold text-gray-900">
                     It will take place in the address designated in the listing.
                 </h2>
-                <input
-                    onChange={nameChangeHandler}
-                    value={name}
-                    type="text"
-                    className="w-1/3 block rounded-md border bordder-primary py-3 px-5 mt-3 bg-primary text-base"
-                    placeholder="Please enter your name"
-                />
+                <div className="w-1/3 mt-6">
+                    <Input
+                        value={name}
+                        type="text"
+                        name="name"
+                        text="Please, enter your name"
+                        onChangeInput={nameChangeHandler}
+                        onValidity={nameValidHandler}
+                        valid={nameIsValid}
+                        warning="Please enter you name"
+                        styles={style}
+                    />
+                </div>
                 <DateTimePicker
                     onChange={dataChangeHandler}
                     value={time}

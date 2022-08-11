@@ -8,22 +8,25 @@ import ListingContext from "../../contexts/ListingContext";
 
 const ListingsCatalog = () => {
     const { filteredListings, search } = useContext(ListingContext);
-    const fetchAllData = async () => {
-            search();    
-    };
-
     useEffect(() => {
-        fetchAllData();
-    }, []);
+        search();
+    }, [search]);
 
     return (
         <WrapperCard>
             <SearchMenu color="bg-blue-700" />
-            <div className="mt-4 grid grid-cols-4 gap-4">
-                {filteredListings.map((x) => {
-                    return <ListingItem key={x.id} {...x} />;
-                })}
-            </div>
+            {filteredListings.length > 0 && (
+                <div className="mt-4 grid grid-cols-4 gap-4">
+                    {filteredListings.map((x) => {
+                        return <ListingItem key={x.id} {...x} />;
+                    })}
+                </div>
+            )}
+            {filteredListings.length === 0 && (
+                <p className="text-center text-6xl mb-4 font-semibold text-gray-800 p-6 stroke">
+                    No Listings Available
+                </p>
+            )}
             <Outlet />
         </WrapperCard>
     );

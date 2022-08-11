@@ -45,7 +45,6 @@ const ListingItemDetailComponent = () => {
             navigate("/listings");
         }
     };
-
     return (
         <WrapperCard>
             <div className="grid-row-2">
@@ -84,7 +83,10 @@ const ListingItemDetailComponent = () => {
                         <p className="mb-2 text-5xl font-bold tracking-tight text-gray-900">
                             {single.price}lv.{" "}
                             <span className="text-3xl">
-                                | {single.area} m<sup>2</sup>{" "}
+                                | {single.type}{" "}
+                            </span>
+                            <span className="text-3xl">
+                                | {single.area} m<sup>2</sup>
                             </span>
                         </p>
                         <p className="mb-2 text-xl tracking-tight text-gray-900">

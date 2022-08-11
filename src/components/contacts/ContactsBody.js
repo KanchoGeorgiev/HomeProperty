@@ -3,7 +3,6 @@ import { useLoadScript } from "@react-google-maps/api";
 import Map from "../UI/Map";
 import WrapperCard from "../cards/WrapperCard";
 import { FaPhone, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
-import ContactsForm from "./ContactsForm";
 
 const ContactsBody = () => {
     const { isLoading } = useLoadScript({
@@ -22,12 +21,17 @@ const ContactsBody = () => {
                             Contacts
                         </h1>
                         <p className="text-white m-4">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit. Beatae placeat aspernatur aperiam, quisquam
-                            voluptas enim tempore ab itaque nam modi eos
-                            corrupti distinctio nobis labore dolorum quae
-                            tenetur. Sapiente, sequi.
+                            Please, feel free to contact us regarding anything
+                            related to this website or any of the listings
+                            posted in it.
                         </p>
+                        <p className="text-white m-4">
+                            Work hours: Mon-Fri
+                        </p>
+                        <p className="text-white m-4">
+                            08:00-20:00
+                        </p>
+
                         <ul className="text-white mx-4 mt-10 text-2xl">
                             <li>
                                 <div className="my-4">
@@ -50,7 +54,6 @@ const ContactsBody = () => {
                         </ul>
                     </div>
                 </div>
-                <ContactsForm />
             </WrapperCard>
         );
     }
