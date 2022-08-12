@@ -45,6 +45,7 @@ const EditComponent = () => {
 
     useEffect(() => {
         fetchOne();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     const formSubmitHandler = async (e) => {
         e.preventDefault();

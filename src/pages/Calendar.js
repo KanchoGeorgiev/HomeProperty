@@ -1,5 +1,5 @@
 import React from "react";
-import AppointmentsListComponent from "../components/ManageListing/AppointmentsListComponent";
+import AppointmentsListComponent from "../components/manageListing/AppointmentsListComponent";
 
 const Calendar = () => {
     return <AppointmentsListComponent />

@@ -24,5 +24,5 @@ export const logoutSevice = () => {
             "Content-Type": "application/json",
         },
     });
-    localStorage.clear("auth");
+    localStorage.removeItem("auth");
 };

@@ -20,6 +20,7 @@ const SearchMenu = (props) => {
     };
     useEffect(() => {
         criteria(inputValue);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [inputValue]);
 
     const submitSearchHandler = (e) => {

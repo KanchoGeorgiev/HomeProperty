@@ -1,5 +1,5 @@
 import React from "react";
-import NewListingComponent from "../components/ManageListing/NewListingComponent";
+import NewListingComponent from "../components/manageListing/NewListingComponent";
 
 const NewListing = () => {
     return <NewListingComponent />;

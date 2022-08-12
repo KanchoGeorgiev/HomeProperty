@@ -38,6 +38,7 @@ const ListingItemDetailComponent = () => {
 
     useEffect(() => {
         fetchOne();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     const deleteListingHandler = async () => {
         const response = await deleteListingService(single.id);

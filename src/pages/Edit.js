@@ -1,5 +1,5 @@
 import React from "react";
-import EditComponent from "../components/ManageListing/EditComponent";
+import EditComponent from "../components/manageListing/EditComponent";
 
 const Edit = () => {
     return <EditComponent />;

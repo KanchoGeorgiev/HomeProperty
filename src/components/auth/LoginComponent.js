@@ -4,12 +4,13 @@ import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/UI/Input";
 import AuthContext from "../../contexts/AuthContext";
 import { authService } from "../../services/authService";
-
+const oldRoute = localStorage.getItem("link");
 const LoginComponent = () => {
     const [value, setValue] = useState({ email: "", password: "" });
     const [isValid, setIsValid] = useState({ email: false, password: false });
     const [warning, setWarning] = useState("Please, enter valid e-mail!");
     const { login } = useContext(AuthContext);
+    
     const style =
         "w-full rounded-md border bordder-primary p-3 bg-primary text-base hover:bg-opacity-90 transition";
     const navigate = useNavigate();
@@ -22,7 +23,6 @@ const LoginComponent = () => {
             return { ...prevValue, [name]: data };
         });
     };
-
     const inputValidityHandler = (data, name) => {
         if (name === "email") {
             setIsValid((prevValue) => {
@@ -43,7 +43,13 @@ const LoginComponent = () => {
                 login(data);
                 setValue({ password: "", email: "" });
                 setIsValid({ email: false, password: false });
-                navigate("/home");
+                if (oldRoute) {
+                    const data = JSON.parse(oldRoute);
+                    navigate(data.pathname);
+                    localStorage.removeItem("link");
+                } else {
+                    navigate("/home");
+                }
             } else {
                 setIsValid((prevValue) => {
                     return { ...prevValue, email: false };

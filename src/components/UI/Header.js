@@ -16,18 +16,18 @@ const Header = () => {
         setIsOpen((prevState) => !prevState);
     };
 
-    const handleOutsideClicks = (e) => {
-        if (
-            isOpen &&
-            dropdownRef.current &&
-            !dropdownRef.current.contains(e.target) &&
-            buttonRef.current &&
-            !buttonRef.current.contains(e.target)
-        ) {
-            setIsOpen(false);
-        }
-    };
     useEffect(() => {
+        const handleOutsideClicks = (e) => {
+            if (
+                isOpen &&
+                dropdownRef.current &&
+                !dropdownRef.current.contains(e.target) &&
+                buttonRef.current &&
+                !buttonRef.current.contains(e.target)
+            ) {
+                setIsOpen(false);
+            }
+        };
         document.addEventListener("mousedown", handleOutsideClicks);
         return () => {
             document.removeEventListener("mousedown", handleOutsideClicks);

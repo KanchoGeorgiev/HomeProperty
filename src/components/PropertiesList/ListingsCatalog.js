@@ -13,6 +13,7 @@ const ListingsCatalog = () => {
     const listingsPerPage = 12;
     useEffect(() => {
         search();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const indexOfLast = currentPage * listingsPerPage;

@@ -13,15 +13,10 @@ const MainCarousel = () => {
         filteredListings[filteredListings.length - 2],
         filteredListings[filteredListings.length - 3],
     ];
-    // for (
-    //     let i = filteredListings.length - 1;
-    //     i > filteredListings.length - 4;
-    //     i--
-    // ) {
-    //     lastThree.push(filteredListings[i]);
-    // }
+  
     useEffect(() => {
         search();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
