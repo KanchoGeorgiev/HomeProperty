@@ -82,7 +82,6 @@ const UserSettingsComponent = () => {
         if (response.ok) {
             imageUpdate(avatar);
             navigate("/home");
-            setAvatar("");
         } else {
             console.log(response);
             alert("Something went wrong!");

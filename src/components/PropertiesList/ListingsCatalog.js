@@ -10,7 +10,7 @@ import Pagination from "../UI/Pagination";
 const ListingsCatalog = () => {
     const { filteredListings, search } = useContext(ListingContext);
     const [currentPage, setrCurrentPage] = useState(1);
-    const listingsPerPage = 12;
+    const listingsPerPage = 8;
     useEffect(() => {
         search();
         // eslint-disable-next-line react-hooks/exhaustive-deps

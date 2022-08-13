@@ -35,7 +35,7 @@ const ListingItemDetailComponent = () => {
             }
         }
     };
-
+    console.log(single);
     useEffect(() => {
         fetchOne();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -76,16 +76,13 @@ const ListingItemDetailComponent = () => {
                         <p className="mb-2 text-3xl font-bold tracking-tight text-gray-900">
                             {single.headline}
                         </p>
-                        <p className="mb-3 font-normal text-gray-700">
+                        <p className="mb-3 font-normal text-gray-700 px-6">
                             {single.description}
                         </p>
                     </div>
                     <div>
                         <p className="mb-2 text-5xl font-bold tracking-tight text-gray-900">
                             {single.price}lv.{" "}
-                            <span className="text-3xl">
-                                | {single.type}{" "}
-                            </span>
                             <span className="text-3xl">
                                 | {single.area} m<sup>2</sup>
                             </span>

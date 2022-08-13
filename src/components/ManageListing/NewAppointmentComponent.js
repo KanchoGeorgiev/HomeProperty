@@ -45,9 +45,7 @@ const NewAppointmentComponent = () => {
             } else {
                 alert("Appointment unsuccessful!");
             }
-            setTime(new Date());
-            setName("");
-            setNameIsValid(false);
+            
         }
     };
 

@@ -39,6 +39,7 @@ const Header = () => {
     };
     const logoutHandler = () => {
         logout();
+        localStorage.removeItem("link");
         setIsOpen(false);
         navigate("/home");
     };

@@ -8,17 +8,21 @@ import ListingContext from "../../contexts/ListingContext";
 
 const MainCarousel = () => {
     const { filteredListings, search } = useContext(ListingContext);
-    const lastThree = [
-        filteredListings[filteredListings.length - 1],
-        filteredListings[filteredListings.length - 2],
-        filteredListings[filteredListings.length - 3],
-    ];
-  
+    let lastThree = [];
+    if (filteredListings.length < 4) {
+        lastThree = filteredListings;
+    } else {
+        lastThree = [
+            filteredListings[filteredListings.length - 1],
+            filteredListings[filteredListings.length - 2],
+            filteredListings[filteredListings.length - 3],
+        ];
+    }
+
     useEffect(() => {
         search();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
     return (
         <>
             <div
@@ -39,7 +43,7 @@ const MainCarousel = () => {
                     <p className="text-2xl mb-4 mt-8 font-semibold text-gray-800">
                         Latest Listings:
                     </p>
-                    {filteredListings.length>0 && (
+                    {filteredListings.length > 0 && (
                         <Carousel
                             useKeyboardArrows={true}
                             showThumbs={false}

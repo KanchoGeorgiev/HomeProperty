@@ -43,6 +43,7 @@ const LoginComponent = () => {
                 login(data);
                 setValue({ password: "", email: "" });
                 setIsValid({ email: false, password: false });
+                console.log(oldRoute);
                 if (oldRoute) {
                     const data = JSON.parse(oldRoute);
                     navigate(data.pathname);

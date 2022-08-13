@@ -66,18 +66,6 @@ const EditComponent = () => {
                     inputValue.description.trim().length > 0
                         ? inputValue.description
                         : "No Description Added",
-
-                // headline: inputValue.headline,
-                // price: inputValue.price,
-                // area: inputValue.area,
-                // city: inputValue.city,
-                // street: inputValue.street,
-                // description:
-                //     inputValue.description.trim().length > 0
-                //         ? inputValue.description
-                //         : "No Description Added",
-                // lat: inputValue.lat === 0 ? 42.6903 : inputValue.lat,
-                // lng: inputValue.lng === 0 ? 23.405 : inputValue.lng,
             };
             
             const response = await editListingService(
@@ -86,24 +74,6 @@ const EditComponent = () => {
             );
 
             if (response.ok) {
-                setIsValid({
-                    headline: false,
-                    area: false,
-                    price: false,
-                    city: false,
-                    address: false,
-                    description: true,
-                });
-                setInputValue({
-                    headline: "",
-                    area: 0,
-                    price: 0,
-                    city: "",
-                    address: "",
-                    description: "",
-                    lat: 0,
-                    lng: 0,
-                });
                 navigate("/listings");
             } else {
                 console.log(response);
@@ -174,14 +144,6 @@ const EditComponent = () => {
                                 warning="Area must be at least 20 sqare meters!"
                                 styles={style}
                             />
-
-                            <input
-                                id="imageBrowse"
-                                type="file"
-                                className="w-full rounded-md border bordder-primary mt-3 mb-9 bg-primary text-base"
-                                multiple
-                            />
-
                             <Input
                                 value={inputValue.price}
                                 type="number"
