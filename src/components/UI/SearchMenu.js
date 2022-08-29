@@ -12,7 +12,7 @@ const SearchMenu = (props) => {
     });
     const { criteria, search } = useContext(ListingContext);
     const style =
-        "w-full rounded-md border bordder-primary p-3 bg-white text-base hover:bg-opacity-90 transition";
+        "w-full rounded-md border bordder-primary p-2 bg-white text-base hover:bg-opacity-90 transition";
     const inputChangeHandler = (data, name) => {
         setInputValue((prevState) => {
             return { ...prevState, [name]: data.target.value };
@@ -67,7 +67,7 @@ const SearchMenu = (props) => {
                         }}
                         className={style}
                     >
-                        <option defaultValue={0}>Choose Property type</option>
+                        <option defaultValue={0}>Show All</option>
                         <option value={0}>Apartment</option>
                         <option value={1}>House</option>
                         <option value={2}>Studio</option>
@@ -76,7 +76,7 @@ const SearchMenu = (props) => {
                 </div>
                 <button
                     type="submit"
-                    className={`mx-auto mt-3 py-3 px-24 text-xl font-bold text-center text-white rounded-lg hover:bg-blue-800 ${props.color}`}
+                    className={`mx-auto mt-3 py-2 px-16 text-xl font-bold text-center text-white rounded-lg hover:bg-blue-800 ${props.color}`}
                 >
                     Search
                 </button>

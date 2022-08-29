@@ -29,18 +29,18 @@ const MainCarousel = () => {
                 style={{ backgroundImage: `url(${background})` }}
                 className="bg-opacity-50"
             >
-                <p className="text-center text-6xl mb-4 font-semibold text-gray-800 p-6 stroke">
+                <p className="text-center text-5xl mb-4 font-semibold text-gray-800 p-4 stroke">
                     Welcome to Home Property website
                 </p>
                 <WrapperCard>
-                    <div className="p-10">
+                    <div className="p-6">
                         <SearchMenu color="bg-gray-900" />
                     </div>
                 </WrapperCard>
             </div>
             <WrapperCard>
                 <div className="w-2/3 mx-auto">
-                    <p className="text-2xl mb-4 mt-8 font-semibold text-gray-800">
+                    <p className="text-2xl mb-4 mt-4 font-semibold text-gray-800">
                         Latest Listings:
                     </p>
                     {filteredListings.length > 0 && (

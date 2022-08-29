@@ -49,7 +49,7 @@ const ListingsCatalog = () => {
                 </p>
             )}
 
-            {filteredListings.length > 12 && (
+            {filteredListings.length > 8 && (
                 <Pagination
                     listingsPerPage={listingsPerPage}
                     totalListings={filteredListings.length}

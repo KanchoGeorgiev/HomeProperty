@@ -41,7 +41,10 @@ export const ListingContextProvider = (props) => {
                 );
                 setFilteredListings(filtered);
             }
-            if (criteria.type !== "") {
+            if (
+                criteria.type !== "" &&
+                criteria.type !== "Show All"
+            ) {
                 filtered = filtered.filter(
                     (x) => Number(x.type) === Number(criteria.type)
                 );

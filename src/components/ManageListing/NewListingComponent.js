@@ -29,7 +29,7 @@ const NewListingComponent = () => {
     const { userData } = useContext(AuthContext);
 
     const style =
-        "w-full block rounded-md border bordder-primary py-3 px-5 mt-3 bg-primary text-base";
+        "w-full block rounded-md border bordder-primary py-2 px-5 mt-2 bg-primary text-base";
 
     const navigate = useNavigate();
     const formSubmitHandler = async (e) => {
@@ -92,6 +92,7 @@ const NewListingComponent = () => {
         setUrls((prevFields) => [...prevFields, newField]);
     };
     const selectInputHandler = (e) => {
+        console.log(e.target.value);
         setInputValue((prevState) => {
             return { ...prevState, type: e.target.value };
         });
@@ -153,7 +154,7 @@ const NewListingComponent = () => {
                             <button
                                 type="submit"
                                 onClick={moreUrlsHandler}
-                                className="group relative mx-auto mt-6 w-1/2 flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-400"
+                                className="group relative mx-auto mt-6 w-1/2 flex justify-center py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-400"
                             >
                                 Add More URLS
                             </button>
@@ -164,9 +165,9 @@ const NewListingComponent = () => {
                                 Choose a property type:
                             </label>
                             <select
-                                onSelect={selectInputHandler}
+                                onChange={selectInputHandler}
                                 id="countries"
-                                className="bg-white mb-12 py-3 px-5 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                className="bg-white mb-12 py-2 px-5 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             >
                                 <option value={0}>Apartment</option>
                                 <option value={1}>House</option>
@@ -204,7 +205,7 @@ const NewListingComponent = () => {
                         </div>
                     </form>
                     <div className="flex-grow w=1/2">
-                        <p className="ml-6 mt-10 font-bold">
+                        <p className="ml-6 mt-8 font-bold">
                             Please, select coordinates for Google Map
                         </p>
                         <Map
