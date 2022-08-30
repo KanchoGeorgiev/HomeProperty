@@ -64,7 +64,6 @@ const UserSettingsComponent = () => {
                 passwordConfirm: false,
             });
         } else {
-            console.log(response);
             alert("Something went wrong!");
         }
     };

@@ -35,7 +35,6 @@ const ListingItemDetailComponent = () => {
             }
         }
     };
-    console.log(single);
     useEffect(() => {
         fetchOne();
         // eslint-disable-next-line react-hooks/exhaustive-deps

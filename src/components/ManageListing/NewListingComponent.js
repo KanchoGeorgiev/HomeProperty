@@ -92,7 +92,6 @@ const NewListingComponent = () => {
         setUrls((prevFields) => [...prevFields, newField]);
     };
     const selectInputHandler = (e) => {
-        console.log(e.target.value);
         setInputValue((prevState) => {
             return { ...prevState, type: e.target.value };
         });
