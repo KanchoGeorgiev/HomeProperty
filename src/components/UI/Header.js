@@ -46,11 +46,11 @@ const Header = () => {
 
     const buttonActiveStyle = ({ isActive }) =>
         isActive
-            ? "bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-bold"
-            : "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium";
+            ? "bg-neutral-900 text-white px-3 py-2 rounded-md text-sm font-bold"
+            : "text-neutral-300 hover:bg-neutral-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium";
     return (
         <div className="min-h-full">
-            <nav className="bg-gray-800">
+            <nav className="bg-neutral-800">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16">
                         <div className="flex items-center">
@@ -137,7 +137,7 @@ const Header = () => {
                                             <div ref={dropdownRef}>
                                                 <button
                                                     type="button"
-                                                    className="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                                                    className="max-w-xs bg-neutral-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-neutral-800 focus:ring-white"
                                                     id="user-menu-button"
                                                     aria-expanded="false"
                                                     aria-haspopup="true"
@@ -172,7 +172,7 @@ const Header = () => {
                                                 >
                                                     <Link
                                                         to="/settings"
-                                                        className="block px-4 py-2 text-sm text-gray-700"
+                                                        className="block px-4 py-2 text-sm text-neutral-700"
                                                         role="menuitem"
                                                         tabIndex="-1"
                                                         id="user-menu-item-1"
@@ -185,7 +185,7 @@ const Header = () => {
 
                                                     <button
                                                         type="button"
-                                                        className="block px-4 py-2 text-sm text-gray-700"
+                                                        className="block px-4 py-2 text-sm text-neutral-700"
                                                         role="menuitem"
                                                         tabIndex="-1"
                                                         id="user-menu-item-2"

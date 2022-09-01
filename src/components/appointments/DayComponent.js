@@ -14,11 +14,11 @@ const DayComponent = ({ day, rowIndx, appointments }) => {
     }, [appointments, day]);
     const getCurrentDay = () => {
         return day.format("DD-MM-YY") === dayjs().format("DD-MM-YY")
-            ? "bg-blue-600 text-white rounded-full w-7"
+            ? "bg-amber-700 text-white rounded-full w-7"
             : "";
     };
     return (
-        <div className="border border-gray-200 flex flex-col">
+        <div className="border border-gray-200 flex flex-col rounded-lg bg-white">
             <header className="flex flex-col items-center">
                 {rowIndx === 0 && (
                     <p className="text-sm mt-1">
@@ -40,7 +40,7 @@ const DayComponent = ({ day, rowIndx, appointments }) => {
                                 detailSetter(evt);
                             }}
                             key={i}
-                            className={`bg-blue-400 p-1 mx-1 text-gray-600 text-sm rounded mb-1 truncate cursor-pointer`}
+                            className="bg-stone-400 p-1 mx-1 text-stone-100 text-sm rounded mb-1 truncate cursor-pointer"
                         >
                             {evt.name}
                         </div>

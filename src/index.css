@@ -8,7 +8,7 @@
     }
 }
 body {
-    background-color: rgb(221, 221, 221);
+    background-color: rgba(218, 195, 161, 0.692);
     padding-bottom: 115px;
 }
 .carousel.carousel-slider .control-arrow {
@@ -43,7 +43,7 @@ body {
     border: none;
 }
 .stroke {
-    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-width: 0.5px;
     -webkit-text-stroke-color: rgb(255, 255, 255);
 }
 .react-calendar__tile--active:enabled {

@@ -6,6 +6,7 @@ import { useEffect, useContext } from "react";
 import { Outlet } from "react-router-dom";
 import ListingContext from "../../contexts/ListingContext";
 import Pagination from "../UI/Pagination";
+import BackgroundCard from "../cards/BackgroundCard";
 
 const ListingsCatalog = () => {
     const { filteredListings, search } = useContext(ListingContext);
@@ -35,30 +36,32 @@ const ListingsCatalog = () => {
     };
     return (
         <WrapperCard>
-            <SearchMenu color="bg-blue-700" />
-            {filteredListings.length > 0 && (
-                <div className="mt-4 grid grid-cols-4 gap-4">
-                    {currentListings.map((x) => {
-                        return <ListingItem key={x.id} {...x} />;
-                    })}
-                </div>
-            )}
-            {filteredListings.length === 0 && (
-                <p className="text-center text-6xl mb-4 font-semibold text-gray-800 p-6 stroke">
-                    No Listings Available
-                </p>
-            )}
+            <BackgroundCard>
+                <SearchMenu />
+                {filteredListings.length > 0 && (
+                    <div className="mt-4 grid grid-cols-4 gap-4">
+                        {currentListings.map((x) => {
+                            return <ListingItem key={x.id} {...x} />;
+                        })}
+                    </div>
+                )}
+                {filteredListings.length === 0 && (
+                    <p className="text-center text-6xl mb-4 font-semibold text-gray-800 p-6 stroke">
+                        No Listings Available
+                    </p>
+                )}
 
-            {filteredListings.length > 8 && (
-                <Pagination
-                    listingsPerPage={listingsPerPage}
-                    totalListings={filteredListings.length}
-                    onSetPage={pageSetHandler}
-                    onNextPage={nextHandler}
-                    onPrevPage={prevHandler}
-                />
-            )}
-            <Outlet />
+                {filteredListings.length > 8 && (
+                    <Pagination
+                        listingsPerPage={listingsPerPage}
+                        totalListings={filteredListings.length}
+                        onSetPage={pageSetHandler}
+                        onNextPage={nextHandler}
+                        onPrevPage={prevHandler}
+                    />
+                )}
+                <Outlet />
+            </BackgroundCard>
         </WrapperCard>
     );
 };

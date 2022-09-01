@@ -18,8 +18,8 @@ const CalendarHeaderComponent = () => {
         );
     };
     return (
-        <header className="px-4 py-2 flex items-center bg-white border border-gray-200">
-            <h1 className="mr-10 text-xl text-gray-500 font-bold">Calendar</h1>
+        <header className="px-4 py-2 flex items-center bg-white border border-neutral-200 rounded-lg">
+            <h1 className="mr-10 text-xl text-neutral-500 font-bold">Calendar</h1>
             <button
                 className="border rounded py-2 px-4 mr-5"
                 onClick={todayHandler}
@@ -27,16 +27,16 @@ const CalendarHeaderComponent = () => {
                 Today
             </button>
             <button onClick={prevMonthHandler}>
-                <span className="material-icons-outlined cursor-pointer text-gray-600 mx-2">
+                <span className="material-icons-outlined cursor-pointer text-neutral-600 mx-2">
                     chevron_left
                 </span>
             </button>
             <button onClick={nextMonthHandler}>
-                <span className="material-icons-outlined cursor-pointer text-gray-600 mx-2">
+                <span className="material-icons-outlined cursor-pointer text-neutral-600 mx-2">
                     chevron_right
                 </span>
             </button>
-            <h2 className="ml-4 text-xl text-gray-500 font-bold">
+            <h2 className="ml-4 text-xl text-neutral-500 font-bold">
                 {dayjs(new Date(dayjs().year(), monthIndex)).format(
                     "MMMM YYYY"
                 )}

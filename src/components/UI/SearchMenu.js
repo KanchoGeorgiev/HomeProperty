@@ -11,8 +11,9 @@ const SearchMenu = (props) => {
         type: "",
     });
     const { criteria, search } = useContext(ListingContext);
-    const style =
-        "w-full rounded-md border bordder-primary p-2 bg-white text-base hover:bg-opacity-90 transition";
+    const style = `rounded-md border bordder-primary p-2 bg-white text-base hover:bg-opacity-90 transition ${
+        props.type !== "1" ? "w-full" : "w-5/6 my-6 mx-auto"
+    }`;
     const inputChangeHandler = (data, name) => {
         setInputValue((prevState) => {
             return { ...prevState, [name]: data.target.value };
@@ -29,10 +30,15 @@ const SearchMenu = (props) => {
         navigate("/listings");
     };
 
+    const searchStyle =
+        props.type !== "1"
+            ? "grid grid grid-cols-2 grid-flow-row gap-2 place-items-start"
+            : "flex flex-col justify-center mt-6";
+
     return (
         <>
             <form className="flex flex-col" onSubmit={submitSearchHandler}>
-                <div className="grid grid grid-cols-2 grid-flow-row gap-2 place-items-start">
+                <div className={searchStyle}>
                     <input
                         value={inputValue.city}
                         type="text"
@@ -76,7 +82,7 @@ const SearchMenu = (props) => {
                 </div>
                 <button
                     type="submit"
-                    className={`mx-auto mt-3 py-2 px-16 text-xl font-bold text-center text-white rounded-lg hover:bg-blue-800 ${props.color}`}
+                    className="mx-auto mt-3 py-2 px-16 text-xl font-bold text-center text-white rounded-lg hover:bg-amber-700 bg-stone-400"
                 >
                     Search
                 </button>

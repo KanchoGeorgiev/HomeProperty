@@ -44,7 +44,7 @@ const ContactsForm = () => {
             : "Enter your question here";
     return (
         <WrapperCard>
-            <header className="text-5xl font-bold text-gray-800 text-center my-6">
+            <header className="text-5xl font-bold text-neutral-800 text-center my-6">
                 Contact us
             </header>
             <form className="w-1/2 mx-auto" onSubmit={submitHandler}>
@@ -71,7 +71,7 @@ const ContactsForm = () => {
                 />
                 <button
                     type="submit"
-                    className="w-full mt-4 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-400"
+                    className="w-full mt-4 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white hover:bg-amber-700 bg-stone-400"
                 >
                     Submit
                 </button>

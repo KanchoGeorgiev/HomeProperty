@@ -6,6 +6,7 @@ import AuthContext from "../../contexts/AuthContext";
 import DayComponent from "./DayComponent";
 import CalendarHeaderComponent from "./CalendarHeaderComponent";
 import AppointmentDetailModal from "./AppointmentDetailModal";
+import BackgroundCard from "../cards/BackgroundCard";
 
 const AppointmentCallendarComponent = () => {
     const { monthIndex, modalIsOpen } = useContext(CalendarContext);
@@ -39,29 +40,31 @@ const AppointmentCallendarComponent = () => {
 
     return (
         <WrapperCard>
-            {modalIsOpen && <AppointmentDetailModal />}
-            <div className="h-screen flex flex-col">
-                <CalendarHeaderComponent />
+            <BackgroundCard>
+                {modalIsOpen && <AppointmentDetailModal />}
+                <div className="h-screen flex flex-col">
+                    <CalendarHeaderComponent />
 
-                <div className="flex-1 grid grid-cols-7 grid-rows-5 bg-white mt-6">
-                    {month.map((row, i) => {
-                        return (
-                            <Fragment key={i}>
-                                {row.map((day, idx) => {
-                                    return (
-                                        <DayComponent
-                                            day={day}
-                                            key={idx}
-                                            rowIndx={i}
-                                            appointments={appointments}
-                                        />
-                                    );
-                                })}
-                            </Fragment>
-                        );
-                    })}
+                    <div className="flex-1 grid grid-cols-7 grid-rows-5 mt-6">
+                        {month.map((row, i) => {
+                            return (
+                                <Fragment key={i}>
+                                    {row.map((day, idx) => {
+                                        return (
+                                            <DayComponent
+                                                day={day}
+                                                key={idx}
+                                                rowIndx={i}
+                                                appointments={appointments}
+                                            />
+                                        );
+                                    })}
+                                </Fragment>
+                            );
+                        })}
+                    </div>
                 </div>
-            </div>
+            </BackgroundCard>
         </WrapperCard>
     );
 };
