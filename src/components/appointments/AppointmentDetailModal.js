@@ -5,6 +5,8 @@ const AppointmentDetailModal = () => {
     const { modalStateHandler, appointmentDetail } =
         useContext(CalendarContext);
 
+        console.log(appointmentDetail);
+
     return (
         <div className="h-screen w-full fixed left-0 top-0 flex justify-center items-center">
             <form className="bg-white rounded-lg shadow-2xl w-1/4">
@@ -30,7 +32,7 @@ const AppointmentDetailModal = () => {
                         onClick={() => {
                             modalStateHandler(false);
                         }}
-                        className="bg-blue-500 hover:bg-blue-600 px-6 py-2 rounded text-white"
+                        className="hover:bg-amber-700 bg-stone-400 px-6 py-2 rounded text-white"
                     >
                         Close
                     </button>

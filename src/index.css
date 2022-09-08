@@ -47,5 +47,89 @@ body {
     -webkit-text-stroke-color: rgb(255, 255, 255);
 }
 .react-calendar__tile--active:enabled {
-    background-color:#056dd4;
+    background-color: #056dd4;
+}
+.ProseMirror:focus {
+    outline: none;
+}
+
+.ProseMirror > * + * {
+    margin-top: 0.15em;
+}
+
+.ProseMirror ul,
+.ProseMirror ol {
+    padding: 0 1rem;
+}
+
+.ProseMirror h1,
+.ProseMirror h2,
+.ProseMirror h3,
+.ProseMirror h4,
+.ProseMirror h5,
+.ProseMirror h6 {
+    line-height: 1.1;
+}
+
+.ProseMirror code {
+    background-color: #d6d6d6;
+    color: #616161;
+}
+
+.ProseMirror pre {
+    background: #0d0d0d;
+    color: #fff;
+    font-family: "JetBrainsMono", monospace;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+}
+.ProseMirror pre code {
+    color: inherit;
+    padding: 0;
+    background: none;
+    font-size: 0.8rem;
+}
+
+.ProseMirror img {
+    max-width: 100%;
+    height: auto;
+}
+
+.ProseMirror blockquote {
+    padding-left: 1rem;
+    border-left: 2px solid #757575;
+}
+
+.ProseMirror hr {
+    border: none;
+    border-top: 2px solid #757575;
+    margin: 2rem 0;
+}
+
+.commentInput {
+    border-width: 0 1px 1px 1px;
+    border-radius: 0 0 5px 5px;
+    min-height: 100px;
+}
+.menuBar {
+    padding-top: 5px;
+    border-width: 1px;
+    border-radius: 5px 5px 0 0;
+}
+
+.icon {
+    padding: 2px;
+    border: 1px solid #9ca3af;
+    border-radius: 4px;
+    font-size: 1.5rem;
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
+    color: #9ca3af;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.icon:hover {
+    color: black;
+    border-color: black;
 }
