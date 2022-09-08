@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import parser from "html-react-parser";
 
 const ListingItem = (props) => {
     return (
@@ -17,7 +18,7 @@ const ListingItem = (props) => {
                     </h5>
 
                     <p className="mb-3 font-normal text-gray-700 h-20 overflow-hidden">
-                        {props.description}
+                        {parser(props.description)}
                     </p>
                     <p className="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white rounded-lg hover:bg-amber-700 bg-stone-400">
                         Read more

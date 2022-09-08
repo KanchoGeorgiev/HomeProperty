@@ -17,21 +17,19 @@ const Input = (props) => {
     };
     return (
         <div>
-            <div className="mb-1">
-                <input
-                    value={props.value}
-                    name={props.name}
-                    type={props.type}
-                    autoComplete={props.name}
-                    required
-                    className={props.styles}
-                    placeholder={props.text}
-                    onChange={changeInputHandler}
-                    onBlur={touchHandler}
-                />
-            </div>
+            <input
+                value={props.value}
+                name={props.name}
+                type={props.type}
+                autoComplete={props.name}
+                required
+                className={props.styles}
+                placeholder={props.text}
+                onChange={changeInputHandler}
+                onBlur={touchHandler}
+            />
             <p
-                className={`mt-3 text-red-600 ${
+                className={`mt-2 text-red-600 ${
                     isTouched && !props.valid ? "" : "opacity-0"
                 }`}
             >

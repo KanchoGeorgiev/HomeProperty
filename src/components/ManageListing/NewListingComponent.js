@@ -5,6 +5,8 @@ import Input from "../UI/Input";
 import AuthContext from "../../contexts/AuthContext";
 import BackgroundCard from "../cards/BackgroundCard";
 import WrapperCard from "../cards/WrapperCard";
+import TextEditor from "../UI/TextEditor";
+import { FaTrash, FaRegPlusSquare } from "react-icons/fa";
 const NewListingComponent = () => {
     const [inputValue, setInputValue] = useState({
         headline: "",
@@ -93,6 +95,12 @@ const NewListingComponent = () => {
         const newField = "";
         setUrls((prevFields) => [...prevFields, newField]);
     };
+    const lessUrlsHandler = (e) => {
+        e.preventDefault();
+        const copyFields = [...urls];
+        copyFields.pop();
+        setUrls(copyFields);
+    };
     const selectInputHandler = (e) => {
         setInputValue((prevState) => {
             return { ...prevState, type: e.target.value };
@@ -127,39 +135,6 @@ const NewListingComponent = () => {
                                     warning="This field must be filled!"
                                     styles={style}
                                 />
-                                <Input
-                                    value={inputValue.area}
-                                    type="number"
-                                    name="area"
-                                    text="Area"
-                                    onChangeInput={inputChangeHandler}
-                                    onValidity={inputValidation}
-                                    valid={isValid.area}
-                                    warning="Area must be at least 20 sqare meters!"
-                                    styles={style}
-                                />
-                                {urls.map((x, index) => {
-                                    return (
-                                        <input
-                                            name="url"
-                                            key={index}
-                                            type="text"
-                                            className={style}
-                                            value={x.url}
-                                            onChange={(e) =>
-                                                urlInputHandler(index, e)
-                                            }
-                                            placeholder="Add image URL"
-                                        />
-                                    );
-                                })}
-                                <button
-                                    type="submit"
-                                    onClick={moreUrlsHandler}
-                                    className="group relative mx-auto mt-6 w-1/2 flex justify-center py-2 border border-transparent text-sm font-medium rounded-md text-white hover:bg-amber-700 bg-stone-400"
-                                >
-                                    Add More URLS
-                                </button>
                                 <label
                                     htmlFor="countries"
                                     className="block my-4 text-sm font-medium text-gray-900 dark:text-gray-400"
@@ -177,6 +152,17 @@ const NewListingComponent = () => {
                                     <option value={3}>Other</option>
                                 </select>
                                 <Input
+                                    value={inputValue.area}
+                                    type="number"
+                                    name="area"
+                                    text="Area"
+                                    onChangeInput={inputChangeHandler}
+                                    onValidity={inputValidation}
+                                    valid={isValid.area}
+                                    warning="Area must be at least 20 sqare meters!"
+                                    styles={style}
+                                />
+                                <Input
                                     value={inputValue.price}
                                     type="number"
                                     name="price"
@@ -187,34 +173,48 @@ const NewListingComponent = () => {
                                     warning="Price must be at least 20lv.!"
                                     styles={style}
                                 />
-                                <Input
-                                    value={inputValue.description}
-                                    type="textarea"
-                                    name="description"
-                                    text="Description"
-                                    onChangeInput={inputChangeHandler}
-                                    onValidity={inputValidation}
-                                    valid={isValid.description}
-                                    warning="This field must be filled!"
-                                    styles={style}
-                                />
-                                <button
-                                    type="submit"
-                                    className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white hover:bg-amber-700 bg-stone-400"
-                                >
-                                    Submit
-                                </button>
-                            </div>
-                        </form>
-                        <div className="flex-grow w=1/2">
-                            <p className="ml-6 mt-8 font-bold">
-                                Please, select coordinates for Google Map
-                            </p>
-                            <Map
-                                name="ml-6 map-container"
-                                onSelectLocation={coordinatesChangeHandler}
-                            />
-                            <div className="ml-6">
+                                {urls.map((x, index) => {
+                                    return (
+                                        <div className="flex" key={index}>
+                                            <input
+                                                name="url"
+                                                type="text"
+                                                className="w-full block rounded-l-md border bordder-primary px-5 my-3 bg-primary text-base"
+                                                value={x.url}
+                                                onChange={(e) =>
+                                                    urlInputHandler(index, e)
+                                                }
+                                                placeholder="Add image URL"
+                                            />
+                                            {urls.length - 1 !== index &&
+                                                urls.length !== 1 && (
+                                                    <button
+                                                        type="submit"
+                                                        onClick={
+                                                            lessUrlsHandler
+                                                        }
+                                                        className="group relative mx-auto my-3 flex justify-center p-2 border rounded-r-md border-transparent text-sm font-medium text-white hover:bg-amber-700 bg-stone-400"
+                                                    >
+                                                        <FaTrash />
+                                                    </button>
+                                                )}
+                                            {urls.length - 1 === index && (
+                                                <div className="flex">
+                                                    <button
+                                                        type="submit"
+                                                        onClick={
+                                                            moreUrlsHandler
+                                                        }
+                                                        className="group relative mx-auto my-3 flex justify-center p-2 border border-transparent rounded-r-md text-sm font-medium text-white hover:bg-amber-700 bg-stone-400"
+                                                    >
+                                                        <FaRegPlusSquare />
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </div>
+                                    );
+                                })}
+
                                 <p className="mt-2 font-bold">Adress:</p>
                                 <Input
                                     value={inputValue.city}
@@ -237,6 +237,31 @@ const NewListingComponent = () => {
                                     valid={isValid.street}
                                     warning="This field must be filled!"
                                     styles={style}
+                                />
+                                <button
+                                    type="submit"
+                                    className="group relative w-full mt-4 flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white hover:bg-amber-700 bg-stone-400"
+                                >
+                                    Submit
+                                </button>
+                            </div>
+                        </form>
+                        <div className="flex-grow">
+                            <p className="ml-6 mt-5 font-bold">
+                                Please, select coordinates for Google Map
+                            </p>
+                            <Map
+                                name="ml-6 map-container"
+                                onSelectLocation={coordinatesChangeHandler}
+                            />
+                            <p className="ml-6 mt-4 font-bold">
+                                Please, add a description.
+                            </p>
+                            <div className="ml-6 bg-white">
+                                <TextEditor
+                                    onChangeInput={inputChangeHandler}
+                                    type="description"
+                                    styling="newListing"
                                 />
                             </div>
                         </div>

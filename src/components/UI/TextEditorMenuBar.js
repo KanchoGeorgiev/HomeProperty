@@ -7,7 +7,7 @@ import {
     FaEraser,
     FaUnderline,
 } from "react-icons/fa";
-const CommentsMenuBar = ({ editor }) => {
+const TextEditorMenuBar = ({ editor }) => {
     if (!editor) {
         return null;
     }
@@ -59,4 +59,4 @@ const CommentsMenuBar = ({ editor }) => {
     );
 };
 
-export default CommentsMenuBar;
+export default TextEditorMenuBar;

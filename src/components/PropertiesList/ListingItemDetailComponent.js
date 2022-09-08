@@ -12,21 +12,14 @@ import {
     fetchOneSevice,
 } from "../../services/listingService";
 import NewComment from "../commnets/NewComment";
-
-const DUMMY_DATA = [
-    {
-        name: "Kancho Georgiev",
-        text: "This is a test, but still let's try something a bit longer, so I can be sure everyting is in order",
-        id: 1,
-        listing_id: 29,
-    },
-];
+import parser from "html-react-parser";
 
 const ListingItemDetailComponent = () => {
     const navigate = useNavigate();
     const params = useParams();
     const [showModal, setShowModal] = useState(false);
-    const [comments, setComments] = useState(DUMMY_DATA);
+    const [showComments, setShowComments] = useState(false);
+    const [comments, setComments] = useState([]);
     const [single, setSingle] = useState({});
     const [imageDataset, setImageDataset] = useState([]);
     const { userData } = useContext(AuthContext);
@@ -49,8 +42,21 @@ const ListingItemDetailComponent = () => {
             }
         }
     };
+    const fetchComments = async () => {
+        const comments = await fetch(`/property/comments/${params.detailId}`, {
+            headers: {
+                "X-Api-Key": userData.token,
+                "Content-Type": "application/json",
+            },
+        });
+        if (comments.ok) {
+            const commentsData = await comments.json();
+            setComments(commentsData);
+        }
+    };
     useEffect(() => {
         fetchOne();
+        fetchComments();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     const deleteListingHandler = async () => {
@@ -66,16 +72,41 @@ const ListingItemDetailComponent = () => {
     const closeModalHandler = () => {
         setShowModal(false);
     };
-    const addCommentHandler = (data) => {
+    const addCommentHandler = async (data) => {
+        console.log(data);
+        console.log(single.id);
         const readyValue = {
-            ...data,
-            id: Math.random(),
-            listing_id: single.id,
+            message: data,
+            property_id: single.id,
         };
-        setComments((prevComments) => {
-            return [...prevComments, readyValue];
+        const response = await fetch("/property/add-comment", {
+            method: "POST",
+            headers: {
+                "X-Api-Key": userData.token,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(readyValue),
         });
+        if (response.ok) {
+            setShowModal(false);
+            setShowComments(true);
+            fetchComments();
+        } else {
+            console.log(response);
+        }
     };
+    const showCommentsHandler = () => {
+        setShowComments((prevState) => !prevState);
+    };
+    let commentNumber;
+    if (comments.length === 0) {
+        commentNumber = "Add comment";
+    } else if (comments.length === 1) {
+        commentNumber = "Show 1 comment";
+    } else {
+        commentNumber = `Show ${comments.length} comments`;
+    }
+
     return (
         <>
             {showModal && (
@@ -115,7 +146,9 @@ const ListingItemDetailComponent = () => {
                                     {single.headline}
                                 </p>
                                 <p className="mb-3 font-normal text-gray-700 px-6">
-                                    {single.description}
+                                    {single.description
+                                        ? parser(single.description)
+                                        : single.description}
                                 </p>
                             </div>
                             <div>
@@ -166,18 +199,33 @@ const ListingItemDetailComponent = () => {
                     </div>
                 </BackgroundCard>
             </WrapperCard>
-            <WrapperCard>
-                <BackgroundCard>
-                    <CommentList comments={comments}/>
-                    <button
-                        type="button"
-                        onClick={openModalHandler}
-                        className=" mt-4 mx-auto block items-center py-3 px-24 text-xl font-bold text-center text-white rounded-lg hover:bg-amber-700 bg-stone-400"
-                    >
-                        Add Comment
-                    </button>
-                </BackgroundCard>
-            </WrapperCard>
+            <button
+                type="button"
+                onClick={() => {
+                    if (comments.length >= 1) {
+                        showCommentsHandler();
+                    } else {
+                        openModalHandler();
+                    }
+                }}
+                className=" mt-4 mx-auto block items-center py-3 px-24 text-xl font-bold text-center text-white rounded-lg hover:bg-amber-700 bg-stone-400"
+            >
+                {showComments ? "Hide Comments " : commentNumber}
+            </button>
+            {showComments && (
+                <WrapperCard>
+                    <BackgroundCard>
+                        <CommentList comments={comments} />
+                        <button
+                            type="button"
+                            onClick={openModalHandler}
+                            className=" mt-4 mx-auto block items-center py-3 px-24 text-xl font-bold text-center text-white rounded-lg hover:bg-amber-700 bg-stone-400"
+                        >
+                            Add Comment
+                        </button>
+                    </BackgroundCard>
+                </WrapperCard>
+            )}
         </>
     );
 };

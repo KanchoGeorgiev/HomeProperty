@@ -1,45 +1,24 @@
-import Input from "../UI/Input";
 import React, { useState } from "react";
-import CommentTextEditor from "./CommentTextEditor";
+import TextEditor from "../UI/TextEditor";
 
 const NewComment = ({ onClose, onAddNewComment }) => {
-    const [value, setValue] = useState({ name: "", text: "" });
-    const [isValid, setIsValid] = useState({
-        name: false,
-        text: false,
-    });
-    const inputChangeHandler = (data, name) => {
-        if (name === "text") {
-            setIsValid((prevValue) => {
-                return { ...prevValue, [name]: data.trim().length > 0 };
-            });
-        }
-        setIsValid((prevValue) => {
-            return { ...prevValue, [name]: true };
-        });
-        setValue((prevValue) => {
-            return { ...prevValue, [name]: data };
-        });
-    };
-    const inputValidityHandler = (data, name) => {
-        setIsValid((prevValue) => {
-            return { ...prevValue, [name]: data.trim().length > 0 };
-        });
+    const [text, setText] = useState("");
+    const [isValid, setIsValid] = useState(false);
+    const inputChangeHandler = (data) => {
+        setText(data);
+        setIsValid(true);
     };
 
     const submitHandler = (e) => {
         e.preventDefault();
-        if (isValid.name && isValid.text) {
-            onAddNewComment(value);
-            onClose();
+        if (isValid) {
+            onAddNewComment(text);
         } else {
             console.log(isValid);
-            console.log(value);
+            console.log(text);
             console.log("Enter valid data");
         }
     };
-    const style =
-        "w-full rounded-md border bordder-primary p-3 bg-primary text-base hover:bg-opacity-90 transition";
 
     return (
         <div className="h-screen w-full fixed left-0 top-0 flex justify-center items-center z-10">
@@ -48,18 +27,11 @@ const NewComment = ({ onClose, onAddNewComment }) => {
                     Add your comment
                 </header>
                 <form onSubmit={submitHandler}>
-                    <Input
-                        value={value.name}
-                        type="text"
-                        name="name"
-                        text="Please, enter your name"
+                    <TextEditor
                         onChangeInput={inputChangeHandler}
-                        onValidity={inputValidityHandler}
-                        valid={isValid.name}
-                        warning="This field cannot be empty"
-                        styles={style}
+                        type="text"
+                        styling="comment"
                     />
-                    <CommentTextEditor onChangeInput={inputChangeHandler} />
                     <div className="flex">
                         <button
                             onClick={onClose}

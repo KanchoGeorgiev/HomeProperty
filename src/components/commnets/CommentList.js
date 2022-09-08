@@ -10,10 +10,7 @@ const CommentList = ({ comments }) => {
                         key={com.id}
                         className="bg-stone-500 p-4 rounded-lg text-white mb-4"
                     >
-                        <header className="text-xl font-semibold mb-2">
-                            {com.name}
-                        </header>
-                        <p>{parser(com.text)}</p>
+                        {parser(com.message)}
                     </div>
                 );
             })}
