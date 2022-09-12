@@ -7,6 +7,8 @@ const AuthContext = createContext({
     login: (data) => {},
     logout: () => {},
     imageUpdate: (data) => {},
+    socket: {},
+    socketUpdate: () => {},
 });
 const data = localStorage.getItem("auth");
 export const AuthContextProvider = (props) => {
@@ -25,6 +27,7 @@ export const AuthContextProvider = (props) => {
             return {};
         }
     });
+    const [socket, setSocket] = useState(null);
     const loginHandler = (newData) => {
         setUserData(newData);
         localStorage.setItem("auth", JSON.stringify(newData));
@@ -41,12 +44,18 @@ export const AuthContextProvider = (props) => {
             return { ...prevData, icon: data };
         });
     };
+
+    const socketUpdater = (data) => {
+        setSocket(data);
+    };
     const contextData = {
         isLoggedIn,
         userData,
         login: loginHandler,
         logout: logoutHandler,
         imageUpdate: imageUpdateHandler,
+        socketUpdate: socketUpdater,
+        socket,
     };
     return (
         <AuthContext.Provider value={contextData}>

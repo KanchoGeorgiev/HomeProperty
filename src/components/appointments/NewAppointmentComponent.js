@@ -5,13 +5,15 @@ import AuthContext from "../../contexts/AuthContext";
 import Input from "../UI/Input";
 import { dateConvert } from "../../services/dateConvertService";
 import { useParams, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 const NewAppointmentComponent = () => {
     const [time, setTime] = useState(new Date());
     const [name, setName] = useState("");
     const [nameIsValid, setNameIsValid] = useState(false);
-    const { userData } = useContext(AuthContext);
+    const { userData, socket } = useContext(AuthContext);
     const params = useParams();
     const navigate = useNavigate();
+    const location = useLocation();
     const style =
         "w-full rounded-md border bordder-primary p-3 bg-primary text-base hover:bg-opacity-90 transition";
 
@@ -24,6 +26,7 @@ const NewAppointmentComponent = () => {
     const nameValidHandler = (data) => {
         setNameIsValid(data.trim().length > 0);
     };
+
     const submitMeetingHandler = async () => {
         const convertedTime = dateConvert(time);
         const bodyData = {
@@ -42,10 +45,13 @@ const NewAppointmentComponent = () => {
             });
             if (response.ok) {
                 navigate(`/listings/${params.detailId}`);
+                socket.emit("sendNotification", {
+                    sender: userData.id,
+                    reciever: location.state?.id,
+                });
             } else {
                 alert("Appointment unsuccessful!");
             }
-            
         }
     };
 

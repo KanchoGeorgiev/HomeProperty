@@ -3,10 +3,13 @@ import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef, useContext } from "react";
 import AuthContext from "../../contexts/AuthContext";
 import defAvatar from "../../img/images.png";
+import { io } from "socket.io-client";
 
 const Header = () => {
-    const { isLoggedIn, logout, userData } = useContext(AuthContext);
+    const { isLoggedIn, logout, userData, socketUpdate, socket } =
+        useContext(AuthContext);
     const [isOpen, setIsOpen] = useState(false);
+    const [notification, setNotification] = useState([]);
     const dropdownRef = useRef();
     const buttonRef = useRef();
     const navigate = useNavigate();
@@ -16,6 +19,23 @@ const Header = () => {
         setIsOpen((prevState) => !prevState);
     };
 
+    useEffect(() => {
+        socketUpdate(io("http://localhost:5000"));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    useEffect(() => {
+        if (socket !== null && userData !== null) {
+            socket.emit("newUser", userData.id);
+        }
+    }, [socket, userData]);
+
+    useEffect(() => {
+        socket?.on("getNotification", (data) => {
+            setNotification((prevData) => {
+                return [...prevData, data];
+            });
+        });
+    }, [socket]);
     useEffect(() => {
         const handleOutsideClicks = (e) => {
             if (
@@ -42,6 +62,9 @@ const Header = () => {
         localStorage.removeItem("link");
         setIsOpen(false);
         navigate("/home");
+    };
+    const resetNotifications = () => {
+        setNotification([]);
     };
 
     const buttonActiveStyle = ({ isActive }) =>
@@ -80,12 +103,20 @@ const Header = () => {
                                     </NavLink>
 
                                     {isLoggedIn && userData.type === 1 && (
-                                        <NavLink
-                                            to="/calendar"
-                                            className={buttonActiveStyle}
-                                        >
-                                            Appointments
-                                        </NavLink>
+                                        <div className="relative">
+                                            <NavLink
+                                                to="/calendar"
+                                                className={buttonActiveStyle}
+                                                onClick={resetNotifications}
+                                            >
+                                                Appointments
+                                            </NavLink>
+                                            {notification.length > 0 && (
+                                                <div className="w-4 h-4 absolute right-[-5px] top-[-5px] text-white bg-red-600 rounded-full flex items-center justify-center text-[9px] font-bold">
+                                                    {notification.length}
+                                                </div>
+                                            )}
+                                        </div>
                                     )}
                                     {isLoggedIn && userData.type === 1 && (
                                         <NavLink

@@ -42,6 +42,7 @@ const ListingItemDetailComponent = () => {
             }
         }
     };
+
     const fetchComments = async () => {
         const comments = await fetch(`/property/comments/${params.detailId}`, {
             headers: {
@@ -167,6 +168,7 @@ const ListingItemDetailComponent = () => {
                             <div className="flex justify-around ">
                                 <Link
                                     to={`/listings/${params.detailId}/appointment`}
+                                    state={{ id: single.owner_id }}
                                     className="inline-flex items-center py-3 px-24 text-xl font-bold text-center text-white rounded-lg hover:bg-amber-700 bg-stone-400"
                                 >
                                     Make an Appointment
