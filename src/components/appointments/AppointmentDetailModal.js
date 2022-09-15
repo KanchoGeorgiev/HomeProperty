@@ -5,7 +5,6 @@ const AppointmentDetailModal = () => {
     const { modalStateHandler, appointmentDetail } =
         useContext(CalendarContext);
 
-        console.log(appointmentDetail);
 
     return (
         <div className="h-screen w-full fixed left-0 top-0 flex justify-center items-center">

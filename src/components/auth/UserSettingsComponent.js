@@ -4,6 +4,11 @@ import BackgroundCard from "../cards/BackgroundCard";
 import WrapperCard from "../cards/WrapperCard";
 import Input from "../UI/Input";
 import { useNavigate } from "react-router-dom";
+import Checkbox from "../UI/Checkbox";
+const phoneValidation = (data) => {
+    const re = /08[789]\d{7}/;
+    return re.test(data);
+};
 
 const UserSettingsComponent = () => {
     const [value, setValue] = useState({
@@ -14,17 +19,24 @@ const UserSettingsComponent = () => {
         password: false,
         passwordConfirm: false,
         imageUrl: true,
+        phone: false,
     });
+    const [phone, setPhone] = useState("");
     const [avatar, setAvatar] = useState("");
+    const [checked, setChecked] = useState(false);
     const navigate = useNavigate();
     const { userData, imageUpdate } = useContext(AuthContext);
     const style =
         "w-full rounded-md border bordder-primary p-3 bg-primary text-base hover:bg-opacity-90 transition";
 
     const inputChangeHandler = (data, name) => {
-        setValue((prevValue) => {
-            return { ...prevValue, [name]: data };
-        });
+        if (name === "phone") {
+            setPhone(data);
+        } else {
+            setValue((prevValue) => {
+                return { ...prevValue, [name]: data };
+            });
+        }
     };
     const avatarChangeHandler = (data, name) => {
         setAvatar(data);
@@ -37,6 +49,10 @@ const UserSettingsComponent = () => {
         } else if (name === "passwordConfirm") {
             setIsValid((prevValue) => {
                 return { ...prevValue, [name]: data === value.password };
+            });
+        } else if (name === "phone") {
+            setIsValid((prevValue) => {
+                return { ...prevValue, [name]: phoneValidation(data) };
             });
         } else {
             setIsValid((prevValue) => {
@@ -86,6 +102,16 @@ const UserSettingsComponent = () => {
         } else {
             console.log(response);
             alert("Something went wrong!");
+        }
+    };
+    const checkChange = () => {
+        setChecked((prevState) => !prevState);
+    };
+
+    const phoneSubmitHandler = (e) => {
+        e.preventDefault();
+        if (isValid.phone) {
+            console.log("working");
         }
     };
     return (
@@ -150,6 +176,35 @@ const UserSettingsComponent = () => {
                             Confirm
                         </button>
                     </form>
+                    {userData.type === 1 && (
+                        <form
+                            className="w-1/2 mx-auto"
+                            onSubmit={phoneSubmitHandler}
+                        >
+                            <Checkbox onChecked={checkChange} />
+                            {checked && (
+                                <div>
+                                    <Input
+                                        value={phone}
+                                        type="text"
+                                        name="phone"
+                                        text="Phone Number"
+                                        onChangeInput={inputChangeHandler}
+                                        onValidity={inputValidityHandler}
+                                        valid={isValid.phone}
+                                        warning="Please, enter valid phone number!"
+                                        styles={style}
+                                    />
+                                    <button
+                                        type="submit"
+                                        className="mt-2 group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    >
+                                        Confirm
+                                    </button>
+                                </div>
+                            )}
+                        </form>
+                    )}
                 </BackgroundCard>
             </div>
         </WrapperCard>

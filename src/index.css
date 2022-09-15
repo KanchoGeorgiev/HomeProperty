@@ -27,6 +27,9 @@ body {
 .map-container {
     height: 450px;
 }
+.map-container-small {
+    height: 250px;
+}
 
 #imageBrowse::file-selector-button {
     background-color: rgb(37 99 235);
@@ -137,4 +140,49 @@ body {
 .icon:hover {
     color: black;
     border-color: black;
+}
+.react-switch-checkbox {
+    height: 0;
+    width: 0;
+    visibility: hidden;
+}
+
+.react-switch-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    width: 50px;
+    height: 25px;
+    background: gray;
+    border-radius: 100px;
+    position: relative;
+    transition: background-color 0.2s;
+    margin-bottom: 1rem;
+}
+
+
+.react-switch-label .react-switch-button {
+    content: "";
+    position: absolute;
+    top: 1.25px;
+    left: 1.25px;
+    width: 22.5px;
+    height: 22.5px;
+    border-radius: 22.5px;
+    transition: 0.2s;
+    background: #fff;
+    box-shadow: 0 0 2px 0 rgba(10, 10, 10, 0.29);
+}
+.react-switch-checkbox:checked + .react-switch-label{
+    background-color: rgb(37 99 235);
+}
+
+.react-switch-checkbox:checked + .react-switch-label .react-switch-button {
+    left: calc(100% - 2px);
+    transform: translateX(-100%);
+}
+
+.react-switch-label:active .react-switch-button {
+    width: 60px;
 }
